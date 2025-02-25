@@ -5,6 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
+type Message = {
+  role: "user" | "bot";
+  content: string;
+};
+
 export const ChatbotProject = ({ title, description, apiKeyName }: { 
   title: string;
   description: string;
@@ -12,7 +17,7 @@ export const ChatbotProject = ({ title, description, apiKeyName }: {
 }) => {
   const [apiKey, setApiKey] = useState("");
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<{ role: "user" | "bot"; content: string }[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [isConfigured, setIsConfigured] = useState(false);
 
   const handleSubmitApiKey = () => {
@@ -25,16 +30,18 @@ export const ChatbotProject = ({ title, description, apiKeyName }: {
   const handleSendMessage = () => {
     if (!message.trim()) return;
 
-    const newMessages = [...messages, { role: "user", content: message }];
+    const newUserMessage: Message = { role: "user", content: message };
+    const newMessages = [...messages, newUserMessage];
     setMessages(newMessages);
     setMessage("");
 
     // Here we'll add the actual API integration in the next iteration
     setTimeout(() => {
-      setMessages([...newMessages, { 
+      const botResponse: Message = { 
         role: "bot", 
         content: "This is a placeholder response. API integration coming soon!" 
-      }]);
+      };
+      setMessages([...newMessages, botResponse]);
     }, 1000);
   };
 
