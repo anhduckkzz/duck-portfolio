@@ -5,6 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Settings } from "lucide-react";
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import rehypeHighlight from 'rehype-highlight';
+import 'katex/dist/katex.min.css';
 import {
   Popover,
   PopoverContent,
@@ -18,6 +23,18 @@ type Message = {
 
 const MODEL_NAME = "google/gemini-flash-1.5-8b-exp";
 const DEFAULT_API_KEY = "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";
+
+// Function to add preamble to help model understand formatting
+const addSystemContext = (messages: Message[]) => {
+  const systemMessage = {
+    role: "system",
+    content: "You can use markdown for formatting, including code blocks with syntax highlighting. For mathematical expressions, use LaTeX syntax between $$ symbols for display math or $ symbols for inline math. Example: $$x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$$"
+  };
+  return [systemMessage, ...messages.map(msg => ({
+    role: msg.role === "bot" ? "assistant" : "user",
+    content: msg.content
+  }))];
+};
 
 export const ChatbotProject = () => {
   const [message, setMessage] = useState("");
@@ -44,10 +61,7 @@ export const ChatbotProject = () => {
         },
         body: JSON.stringify({
           model: MODEL_NAME,
-          messages: newMessages.map(msg => ({
-            role: msg.role === "bot" ? "assistant" : "user",
-            content: msg.content
-          })),
+          messages: addSystemContext(newMessages),
           stream: true
         })
       });
@@ -56,7 +70,6 @@ export const ChatbotProject = () => {
         throw new Error("No response body");
       }
 
-      // Add an empty bot message that will be streamed
       const streamingMessage: Message = { role: "bot", content: "" };
       setMessages([...newMessages, streamingMessage]);
       
@@ -81,7 +94,6 @@ export const ChatbotProject = () => {
               const content = jsonData.choices[0]?.delta?.content || '';
               accumulatedText += content;
               
-              // Update the last message with accumulated text
               setMessages(prev => {
                 const newMessages = [...prev];
                 newMessages[newMessages.length - 1] = {
@@ -155,7 +167,17 @@ export const ChatbotProject = () => {
                 msg.role === "user" ? "bg-accent/10 ml-auto" : "bg-white"
               } max-w-[80%] ${msg.role === "user" ? "ml-auto" : "mr-auto"}`}
             >
-              {msg.content}
+              {msg.role === "bot" ? (
+                <ReactMarkdown
+                  remarkPlugins={[remarkMath]}
+                  rehypePlugins={[rehypeKatex, rehypeHighlight]}
+                  className="prose prose-sm max-w-none dark:prose-invert"
+                >
+                  {msg.content}
+                </ReactMarkdown>
+              ) : (
+                msg.content
+              )}
             </motion.div>
           ))}
         </div>
