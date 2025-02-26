@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Components } from 'react-markdown';
 
 type Message = {
   role: "user" | "bot";
@@ -23,6 +24,14 @@ type Message = {
 
 const MODEL_NAME = "google/gemini-flash-1.5-8b-exp";
 const DEFAULT_API_KEY = "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";
+
+// Custom components for ReactMarkdown
+const components: Components = {
+  // This ensures className is properly handled
+  p: ({ children, className }) => <p className={className}>{children}</p>,
+  code: ({ children, className }) => <code className={className}>{children}</code>,
+  pre: ({ children, className }) => <pre className={className}>{children}</pre>,
+};
 
 // Function to add preamble to help model understand formatting
 const addSystemContext = (messages: Message[]) => {
@@ -169,6 +178,7 @@ export const ChatbotProject = () => {
             >
               {msg.role === "bot" ? (
                 <ReactMarkdown
+                  components={components}
                   remarkPlugins={[remarkMath]}
                   rehypePlugins={[rehypeKatex, rehypeHighlight]}
                   className="prose prose-sm max-w-none dark:prose-invert"
