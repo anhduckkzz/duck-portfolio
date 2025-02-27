@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -26,9 +27,13 @@ const DEFAULT_API_KEY = "sk-or-v1-8d42c90375bb78a7ab8d13da9d0e7e5d1c79fa38d5b8f5
 
 // Custom components for ReactMarkdown
 const components: Components = {
-  p: ({ children, className }) => <p className={className}>{children}</p>,
-  code: ({ children, className }) => <code className={className}>{children}</code>,
-  pre: ({ children, className }) => <pre className={className}>{children}</pre>,
+  p: ({ node, children }) => <p className="prose-p">{children}</p>,
+  code: ({ node, inline, className, children }) => (
+    <code className={`${className || ""} ${inline ? "inline-code" : "block-code"}`}>
+      {children}
+    </code>
+  ),
+  pre: ({ node, children }) => <pre className="prose-pre bg-gray-100 p-2 rounded">{children}</pre>,
 };
 
 // Function to add preamble to help model understand formatting
@@ -231,14 +236,15 @@ export const ChatbotProject = () => {
                 } max-w-[80%] ${msg.role === "user" ? "ml-auto" : "mr-auto"}`}
               >
                 {msg.role === "bot" ? (
-                  <ReactMarkdown
-                    components={components}
-                    remarkPlugins={[remarkMath]}
-                    rehypePlugins={[rehypeKatex, rehypeHighlight]}
-                    className={`prose prose-sm max-w-none ${isDarkMode ? 'dark:prose-invert' : ''}`}
-                  >
-                    {msg.content}
-                  </ReactMarkdown>
+                  <div className={`prose prose-sm max-w-none ${isDarkMode ? 'dark:prose-invert' : ''}`}>
+                    <ReactMarkdown
+                      components={components}
+                      remarkPlugins={[remarkMath]}
+                      rehypePlugins={[rehypeKatex, rehypeHighlight]}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
+                  </div>
                 ) : (
                   msg.content
                 )}
