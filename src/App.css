@@ -64,3 +64,26 @@ body.scrolling img {
   background: rgba(31, 31, 31, 0.8);
   backdrop-filter: blur(10px);
 }
+
+/* Input styles for dark mode */
+.dark input, 
+.dark textarea {
+  background-color: #2d2d2d !important;
+  color: #ffffff !important;
+  border-color: #444444 !important;
+}
+
+/* Footer styles */
+footer {
+  width: 100%;
+  border-top-width: 4px;
+  border-top-style: solid;
+  border-top-color: #000000;
+}
+
+/* Fix for dark mode popover */
+.dark .popover-content {
+  background-color: #2d2d2d !important;
+  color: #ffffff !important;
+  border-color: #444444 !important;
+}

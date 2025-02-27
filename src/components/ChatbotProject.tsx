@@ -85,8 +85,9 @@ const AdminModeAnimation = ({ show }: { show: boolean }) => {
       color: 0x33C3F0,
       emissive: 0x0EA5E9,
       emissiveIntensity: 0.5,
-      metalness: 0.8,
-      roughness: 0.2
+      // Removed metalness property since it's not supported by MeshPhongMaterial
+      // using shininess instead which is supported
+      shininess: 80
     });
     const head = new THREE.Mesh(headGeometry, headMaterial);
     robotHead.add(head);
@@ -322,7 +323,11 @@ export const ChatbotProject = () => {
           <Button variant="ghost" size="icon" onClick={() => window.open('/demo', '_blank')}>
             <PlayCircle className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={() => setIsDarkMode(!isDarkMode)}>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => setIsDarkMode(!isDarkMode)}
+          >
             {isDarkMode ? '🌞' : '🌙'}
           </Button>
           <Popover>
@@ -345,7 +350,7 @@ export const ChatbotProject = () => {
                         value={apiKey}
                         onChange={(e) => setApiKey(e.target.value)}
                         placeholder="Enter your API key"
-                        className={isDarkMode ? 'dark:bg-gray-700 dark:text-white' : ''}
+                        className={isDarkMode ? 'dark:bg-gray-700 dark:text-white dark:border-gray-600' : ''}
                       />
                       <label className="text-sm text-muted-foreground">
                         Model Name
@@ -354,7 +359,7 @@ export const ChatbotProject = () => {
                         value={modelName}
                         onChange={(e) => setModelName(e.target.value)}
                         placeholder="Enter model name"
-                        className={isDarkMode ? 'dark:bg-gray-700 dark:text-white' : ''}
+                        className={isDarkMode ? 'dark:bg-gray-700 dark:text-white dark:border-gray-600' : ''}
                       />
                     </>
                   ) : (
@@ -412,7 +417,7 @@ export const ChatbotProject = () => {
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
               disabled={isLoading}
-              className={isDarkMode ? 'dark:bg-gray-700 dark:text-white' : ''}
+              className={isDarkMode ? 'dark:bg-gray-700 dark:text-white dark:border-gray-600' : ''}
             />
             <Button 
               onClick={handleSendMessage} 
