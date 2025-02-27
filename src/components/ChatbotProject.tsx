@@ -336,7 +336,7 @@ export const ChatbotProject = () => {
                 <Settings className="h-5 w-5" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className={`w-80 ${isDarkMode ? 'dark:bg-gray-800 dark:text-white' : ''}`}>
+            <PopoverContent className="w-80">
               <div className="space-y-4">
                 <h4 className="font-medium">Settings</h4>
                 <div className="space-y-2">
@@ -350,7 +350,7 @@ export const ChatbotProject = () => {
                         value={apiKey}
                         onChange={(e) => setApiKey(e.target.value)}
                         placeholder="Enter your API key"
-                        className={isDarkMode ? 'dark:bg-gray-700 dark:text-white dark:border-gray-600' : ''}
+                        className="bg-background"
                       />
                       <label className="text-sm text-muted-foreground">
                         Model Name
@@ -359,7 +359,7 @@ export const ChatbotProject = () => {
                         value={modelName}
                         onChange={(e) => setModelName(e.target.value)}
                         placeholder="Enter model name"
-                        className={isDarkMode ? 'dark:bg-gray-700 dark:text-white dark:border-gray-600' : ''}
+                        className="bg-background"
                       />
                     </>
                   ) : (
@@ -417,7 +417,7 @@ export const ChatbotProject = () => {
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
               disabled={isLoading}
-              className={isDarkMode ? 'dark:bg-gray-700 dark:text-white dark:border-gray-600' : ''}
+              className="bg-background"
             />
             <Button 
               onClick={handleSendMessage} 
