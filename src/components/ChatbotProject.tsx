@@ -1,10 +1,10 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import { Settings, FileText, Github, PlayCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Settings, FileText, Github, PlayCircle, Lock, Unlock } from "lucide-react";
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -16,6 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Components } from 'react-markdown';
+import * as THREE from 'three';
 
 type Message = {
   role: "user" | "bot";
@@ -28,8 +29,8 @@ const DEFAULT_API_KEY = "sk-or-v1-8d42c90375bb78a7ab8d13da9d0e7e5d1c79fa38d5b8f5
 // Custom components for ReactMarkdown
 const components: Components = {
   p: ({ node, children }) => <p className="prose-p">{children}</p>,
-  code: ({ node, inline, className, children }) => (
-    <code className={`${className || ""} ${inline ? "inline-code" : "block-code"}`}>
+  code: ({ node, className, children }) => (
+    <code className={`${className || ""} block-code`}>
       {children}
     </code>
   ),
@@ -48,6 +49,128 @@ const addSystemContext = (messages: Message[]) => {
   }))];
 };
 
+// Admin mode animation component
+const AdminModeAnimation = ({ show }: { show: boolean }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    if (!show || !containerRef.current) return;
+    
+    // Setup Three.js
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    containerRef.current.appendChild(renderer.domElement);
+    
+    // Create wave geometry
+    const waveGeometry = new THREE.PlaneGeometry(20, 20, 50, 50);
+    const waveMaterial = new THREE.MeshPhongMaterial({
+      color: 0x1EAEDB,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.8,
+      side: THREE.DoubleSide
+    });
+    const wave = new THREE.Mesh(waveGeometry, waveMaterial);
+    wave.rotation.x = Math.PI / 2;
+    scene.add(wave);
+    
+    // Create robot head (simplified)
+    const robotHead = new THREE.Group();
+    
+    // Head cube
+    const headGeometry = new THREE.BoxGeometry(2, 2, 2);
+    const headMaterial = new THREE.MeshPhongMaterial({ 
+      color: 0x33C3F0,
+      emissive: 0x0EA5E9,
+      emissiveIntensity: 0.5,
+      metalness: 0.8,
+      roughness: 0.2
+    });
+    const head = new THREE.Mesh(headGeometry, headMaterial);
+    robotHead.add(head);
+    
+    // Eyes
+    const eyeGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+    const eyeMaterial = new THREE.MeshPhongMaterial({ color: 0x0FA0CE, emissive: 0x0FA0CE });
+    
+    const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+    leftEye.position.set(-0.5, 0.3, 1.1);
+    robotHead.add(leftEye);
+    
+    const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+    rightEye.position.set(0.5, 0.3, 1.1);
+    robotHead.add(rightEye);
+    
+    robotHead.position.set(0, 2, 0);
+    scene.add(robotHead);
+    
+    // Add lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+    
+    const pointLight = new THREE.PointLight(0x0EA5E9, 1);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
+    
+    camera.position.z = 10;
+    camera.position.y = 3;
+    camera.lookAt(0, 0, 0);
+    
+    // Animation
+    let frame = 0;
+    const animate = () => {
+      const animationId = requestAnimationFrame(animate);
+      frame += 0.03;
+      
+      // Animate wave
+      const positions = waveGeometry.attributes.position;
+      for (let i = 0; i < positions.count; i++) {
+        const x = positions.getX(i);
+        const y = positions.getY(i);
+        const distance = Math.sqrt(x * x + y * y);
+        
+        const z = Math.sin(distance * 0.5 + frame) * 0.5;
+        positions.setZ(i, z);
+      }
+      positions.needsUpdate = true;
+      
+      // Animate robot
+      robotHead.rotation.y = Math.sin(frame * 0.5) * 0.5;
+      robotHead.position.y = 2 + Math.sin(frame) * 0.2;
+      
+      renderer.render(scene, camera);
+      
+      // Stop animation after 3 seconds
+      if (frame > 6) {
+        cancelAnimationFrame(animationId);
+        if (containerRef.current?.contains(renderer.domElement)) {
+          containerRef.current.removeChild(renderer.domElement);
+        }
+      }
+    };
+    
+    animate();
+    
+    // Cleanup
+    return () => {
+      if (containerRef.current?.contains(renderer.domElement)) {
+        containerRef.current.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+      waveGeometry.dispose();
+      waveMaterial.dispose();
+      headGeometry.dispose();
+      headMaterial.dispose();
+      eyeGeometry.dispose();
+      eyeMaterial.dispose();
+    };
+  }, [show]);
+  
+  return <div ref={containerRef} className="fixed inset-0 z-50 pointer-events-none" />;
+};
+
 export const ChatbotProject = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -58,6 +181,7 @@ export const ChatbotProject = () => {
   const [secretCode, setSecretCode] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isColorMode, setIsColorMode] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -65,6 +189,9 @@ export const ChatbotProject = () => {
         const newCode = prev + e.key;
         if (newCode.includes("anhduc522005")) {
           setIsAdminMode(true);
+          setShowAnimation(true);
+          // Reset animation after 3 seconds
+          setTimeout(() => setShowAnimation(false), 3000);
           return "";
         }
         return newCode.slice(-11); // Keep only last 11 characters
@@ -75,8 +202,15 @@ export const ChatbotProject = () => {
     
     const handleScroll = () => {
       setIsColorMode(true);
+      document.body.classList.add('scrolling');
+      
       // Reset color mode after 1 second of no scrolling
-      setTimeout(() => setIsColorMode(false), 1000);
+      const timeout = setTimeout(() => {
+        setIsColorMode(false);
+        document.body.classList.remove('scrolling');
+      }, 1000);
+      
+      return () => clearTimeout(timeout);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -162,6 +296,21 @@ export const ChatbotProject = () => {
 
   return (
     <div className={`transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+      <AnimatePresence>
+        {showAnimation && <AdminModeAnimation show={showAnimation} />}
+      </AnimatePresence>
+      
+      {isAdminMode && (
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-40 px-4 py-2 rounded-md ${isDarkMode ? 'bg-blue-800' : 'bg-blue-500'} text-white font-medium`}
+        >
+          Admin Mode Activated
+        </motion.div>
+      )}
+      
       <Card className={`glass-card p-6 relative ${isDarkMode ? 'dark:bg-gray-800 dark:text-white' : ''}`}>
         <div className="absolute top-6 right-6 flex gap-2">
           <Button variant="ghost" size="icon" onClick={() => window.open('/docs', '_blank')}>
@@ -186,18 +335,18 @@ export const ChatbotProject = () => {
               <div className="space-y-4">
                 <h4 className="font-medium">Settings</h4>
                 <div className="space-y-2">
-                  <label className="text-sm text-muted-foreground">
-                    OpenRouter API Key
-                  </label>
-                  <Input
-                    type="password"
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    placeholder="Enter your API key"
-                    className={isDarkMode ? 'dark:bg-gray-700 dark:text-white' : ''}
-                  />
-                  {isAdminMode && (
+                  {isAdminMode ? (
                     <>
+                      <label className="text-sm text-muted-foreground flex items-center gap-2">
+                        <Unlock className="h-4 w-4" /> OpenRouter API Key 
+                      </label>
+                      <Input
+                        type="password"
+                        value={apiKey}
+                        onChange={(e) => setApiKey(e.target.value)}
+                        placeholder="Enter your API key"
+                        className={isDarkMode ? 'dark:bg-gray-700 dark:text-white' : ''}
+                      />
                       <label className="text-sm text-muted-foreground">
                         Model Name
                       </label>
@@ -208,6 +357,11 @@ export const ChatbotProject = () => {
                         className={isDarkMode ? 'dark:bg-gray-700 dark:text-white' : ''}
                       />
                     </>
+                  ) : (
+                    <div className="py-2 flex items-center gap-2 text-muted-foreground">
+                      <Lock className="h-4 w-4" />
+                      <span>API settings locked. Enter admin mode to edit.</span>
+                    </div>
                   )}
                   <p className="text-xs text-muted-foreground">
                     Current model: {modelName}
