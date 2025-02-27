@@ -61,16 +61,17 @@ body.scrolling img {
 }
 
 .dark .glass-card {
-  background: rgba(31, 31, 31, 0.8);
+  background: #6E59A5 !important; /* Purple background for dark mode */
   backdrop-filter: blur(10px);
+  color: #FFFFFF !important; /* White text in dark mode */
 }
 
 /* Input styles for dark mode */
 .dark input, 
 .dark textarea {
-  background-color: #2d2d2d !important;
+  background-color: #7E69AB !important; /* Lighter purple for inputs */
   color: #ffffff !important;
-  border-color: #444444 !important;
+  border-color: #9b87f5 !important; /* Lighter border color */
 }
 
 /* Footer styles */
@@ -83,7 +84,30 @@ footer {
 
 /* Fix for dark mode popover */
 .dark .popover-content {
-  background-color: #2d2d2d !important;
+  background-color: #6E59A5 !important; /* Match the purple background */
   color: #ffffff !important;
-  border-color: #444444 !important;
+  border-color: #9b87f5 !important;
+}
+
+/* Message styling for dark mode */
+.dark .bg-gray-700\/50 {
+  background-color: #7E69AB !important; /* Lighter purple for message container */
+}
+
+.dark .bg-gray-600 {
+  background-color: #8B5CF6 !important; /* Vibrant purple for bot messages */
+}
+
+/* Dark mode button styling */
+.dark .dark\:bg-blue-600 {
+  background-color: #9b87f5 !important; /* Primary purple for buttons */
+}
+
+.dark .dark\:hover\:bg-blue-700 {
+  background-color: #7E69AB !important; /* Darker purple for button hover */
+}
+
+/* Admin mode notification in dark mode */
+.dark .bg-blue-800 {
+  background-color: #6E59A5 !important; /* Dark purple for admin notification */
 }

@@ -336,7 +336,7 @@ export const ChatbotProject = () => {
                 <Settings className="h-5 w-5" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80">
+            <PopoverContent className="w-80 popover-content">
               <div className="space-y-4">
                 <h4 className="font-medium">Settings</h4>
                 <div className="space-y-2">
