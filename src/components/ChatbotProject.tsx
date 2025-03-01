@@ -1,9 +1,10 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings, FileText, Github, PlayCircle, Lock, Unlock } from "lucide-react";
+import { Settings, FileText, Github, PlayCircle, Lock, Unlock, Upload } from "lucide-react";
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -171,6 +172,21 @@ const AdminModeAnimation = ({ show }: { show: boolean }) => {
   return <div ref={containerRef} className="fixed inset-0 z-50 pointer-events-none" />;
 };
 
+// PDF Viewer Component
+const PDFViewer = ({ pdfUrl }: { pdfUrl: string | null }) => {
+  if (!pdfUrl) return null;
+  
+  return (
+    <div className="w-full mt-4 rounded overflow-hidden shadow-lg">
+      <iframe 
+        src={pdfUrl} 
+        className="w-full h-[600px]" 
+        title="CV PDF Viewer"
+      />
+    </div>
+  );
+};
+
 export const ChatbotProject = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -182,6 +198,10 @@ export const ChatbotProject = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isColorMode, setIsColorMode] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
+  
+  // New state for PDF handling
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -220,6 +240,26 @@ export const ChatbotProject = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // Handle PDF file upload
+  const handlePdfUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      if (file.type === "application/pdf") {
+        setPdfFile(file);
+        // Create a URL for the file
+        const fileUrl = URL.createObjectURL(file);
+        setPdfUrl(fileUrl);
+        
+        // Clean up the URL when component unmounts or when a new PDF is uploaded
+        return () => {
+          URL.revokeObjectURL(fileUrl);
+        };
+      } else {
+        alert("Please upload a PDF file");
+      }
+    }
+  };
 
   const handleSendMessage = async () => {
     if (!message.trim() || isLoading) return;
@@ -312,6 +352,33 @@ export const ChatbotProject = () => {
       )}
       
       <Card className={`glass-card p-6 relative ${isDarkMode ? 'dark:bg-gray-800 dark:text-white' : ''}`}>
+        {/* PDF Upload Section - Only visible in admin mode */}
+        {isAdminMode && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mb-6 p-4 border border-dashed rounded-lg"
+          >
+            <h4 className="text-lg font-medium mb-2">CV PDF Uploader (Admin Only)</h4>
+            <div className="flex items-center gap-3">
+              <Input 
+                type="file" 
+                accept="application/pdf" 
+                onChange={handlePdfUpload}
+                className="flex-1"
+              />
+              <Button variant="outline" onClick={() => document.getElementById('pdf-upload')?.click()}>
+                <Upload className="h-4 w-4 mr-2" />
+                Upload PDF
+              </Button>
+            </div>
+            
+            {/* PDF Viewer */}
+            <PDFViewer pdfUrl={pdfUrl} />
+          </motion.div>
+        )}
+        
         <div className="absolute top-6 right-6 flex gap-2">
           <Button variant="ghost" size="icon" onClick={() => window.open('/docs', '_blank')}>
             <FileText className="h-5 w-5" />
