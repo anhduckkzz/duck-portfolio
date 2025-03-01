@@ -1,7 +1,7 @@
 
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { Github, PlayCircle, Database, Cloud, Brain, Camera, Robot, BarChart, Server } from "lucide-react";
+import { Github, PlayCircle, Database, Cloud, Brain, Camera, Bot, BarChart, Server } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Projects = () => {
