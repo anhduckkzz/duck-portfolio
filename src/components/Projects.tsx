@@ -1,7 +1,7 @@
 
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { Github, PlayCircle } from "lucide-react";
+import { Github, PlayCircle, Database, Cloud, Brain, Camera, Robot, BarChart, Server } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Projects = () => {
@@ -9,50 +9,56 @@ export const Projects = () => {
     {
       title: "AI Image Generator",
       description: "Deep learning model for generating artistic images",
-      category: "AI",
+      category: "Artificial Intelligence",
       image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
       githubUrl: "https://github.com/trananh-duc/ai-image-generator",
-      demoUrl: "https://ai-image-generator-demo.com",
+      demoUrl: "https://anhduc.vercel.app/",
+      icon: <Brain className="h-5 w-5" />
     },
     {
       title: "Computer Vision Analyzer",
       description: "Real-time object detection and tracking system",
-      category: "CV",
+      category: "Computer Vision",
       image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
       githubUrl: "https://github.com/trananh-duc/cv-analyzer",
-      demoUrl: "https://cv-analyzer-demo.com",
+      demoUrl: "https://anhduc.vercel.app/",
+      icon: <Camera className="h-5 w-5" />
     },
     {
       title: "Natural Language Processor",
       description: "Advanced NLP model for text analysis and generation",
-      category: "NLP",
+      category: "Natural Language Processing",
       image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
       githubUrl: "https://github.com/trananh-duc/nlp-processor",
-      demoUrl: "https://nlp-processor-demo.com",
+      demoUrl: "https://anhduc.vercel.app/",
+      icon: <Brain className="h-5 w-5" />
     },
     {
       title: "Sentiment Analysis Tool",
       description: "Analyzes emotions and sentiments in text using ML algorithms",
-      category: "NLP",
+      category: "Natural Language Processing",
       image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
       githubUrl: "https://github.com/trananh-duc/sentiment-analyzer",
-      demoUrl: "https://sentiment-analyzer-demo.com",
+      demoUrl: "https://anhduc.vercel.app/",
+      icon: <Brain className="h-5 w-5" />
     },
     {
-      title: "Facial Recognition System",
-      description: "Advanced facial detection and recognition model",
-      category: "CV",
+      title: "Big Data Platform",
+      description: "Scalable data processing and analysis platform",
+      category: "Big Data",
       image: "https://images.unsplash.com/photo-1551434678-e076c223a692",
-      githubUrl: "https://github.com/trananh-duc/facial-recognition",
-      demoUrl: "https://facial-recognition-demo.com",
+      githubUrl: "https://github.com/trananh-duc/big-data-platform",
+      demoUrl: "https://anhduc.vercel.app/",
+      icon: <Database className="h-5 w-5" />
     },
     {
-      title: "Conversational AI Assistant",
-      description: "Natural language understanding and generation chatbot",
-      category: "AI",
+      title: "Cloud MLOps Pipeline",
+      description: "Automated machine learning operations pipeline",
+      category: "MLOps",
       image: "https://images.unsplash.com/photo-1535223289827-42f1e9919769",
-      githubUrl: "https://github.com/trananh-duc/conversational-ai",
-      demoUrl: "https://conversational-ai-demo.com",
+      githubUrl: "https://github.com/trananh-duc/mlops-pipeline",
+      demoUrl: "https://anhduc.vercel.app/",
+      icon: <Server className="h-5 w-5" />
     },
   ];
 
@@ -68,18 +74,23 @@ export const Projects = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="glass-card overflow-hidden hover-scale">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <span className="text-sm text-accent font-medium">
-                    {project.category}
-                  </span>
-                  <h3 className="text-xl font-semibold mt-2">{project.title}</h3>
-                  <p className="text-secondary/80 mt-2">{project.description}</p>
+              <Card className="glass-card overflow-hidden hover-scale h-[400px] flex flex-col">
+                <div className="h-48 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
+                  <div className="flex items-center gap-1.5 mb-2">
+                    {project.icon}
+                    <span className="text-sm text-accent font-medium">
+                      {project.category}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-semibold">{project.title}</h3>
+                  <p className="text-secondary/80 mt-2 flex-grow line-clamp-3">{project.description}</p>
                   <div className="flex gap-2 mt-4">
                     <Button
                       variant="outline"
