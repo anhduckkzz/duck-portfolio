@@ -3,19 +3,21 @@ import { Hero } from "@/components/Hero";
 import { Projects } from "@/components/Projects";
 import { ThreeAnimation } from "@/components/ThreeAnimation";
 import { ChatbotProject } from "@/components/ChatbotProject";
+import { Resume } from "@/components/Resume";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-primary">
       <ThreeAnimation />
       <Hero />
+      <Resume />
+      <Projects />
       <section className="container-padding" id="chatbots">
         <div className="max-w-3xl mx-auto">
           <h2 className="section-title">AI Assistant</h2>
           <ChatbotProject />
         </div>
       </section>
-      <Projects />
       
       {/* Footer with black outline */}
       <footer className="mt-16 py-8 border-t-4 border-black bg-gray-900 text-white">
