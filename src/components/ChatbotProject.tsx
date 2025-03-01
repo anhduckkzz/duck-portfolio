@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -363,9 +362,8 @@ export const ChatbotProject = () => {
                       />
                     </>
                   ) : (
-                    <div className="py-2 flex items-center gap-2 text-muted-foreground">
-                      <Lock className="h-4 w-4" />
-                      <span>API settings locked. Enter admin mode to edit.</span>
+                    <div className="py-2 flex items-center justify-center">
+                      <Lock className="h-5 w-5 text-muted-foreground" />
                     </div>
                   )}
                   <p className="text-xs text-muted-foreground">
