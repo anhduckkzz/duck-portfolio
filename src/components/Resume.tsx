@@ -1,7 +1,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Phone, Mail, Github, Linkedin } from "lucide-react";
 
 export const Resume = () => {
   return (
@@ -13,88 +13,138 @@ export const Resume = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="glass-card p-8 mb-8"
+          className="glass-card p-8 mb-8 text-left"
         >
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-2xl font-bold">Trần Anh Đức</h3>
-            <Button className="flex items-center gap-2">
+          {/* Header with contact info */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b pb-4">
+            <div>
+              <h3 className="text-3xl font-bold">Tran Anh Duc</h3>
+              <p className="text-gray-700">Role: Undergraduate Student</p>
+              <p className="text-gray-700">Bachelor of Technology</p>
+              <p className="text-gray-700">Ho Chi Minh University of Technology - VNU HCM</p>
+            </div>
+            <div className="mt-4 md:mt-0 flex flex-col space-y-2">
+              <div className="flex items-center">
+                <Phone size={16} className="mr-2" />
+                <span>+84-815420855</span>
+              </div>
+              <div className="flex items-center">
+                <Mail size={16} className="mr-2" />
+                <span>trananhduc522005@gmail.com</span>
+              </div>
+              <div className="flex items-center">
+                <Github size={16} className="mr-2" />
+                <span>GitHub Profile</span>
+              </div>
+              <div className="flex items-center">
+                <Linkedin size={16} className="mr-2" />
+                <span>LinkedIn Profile</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Education Section */}
+          <div className="mb-6">
+            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Education</h4>
+            <div className="ml-2">
+              <div className="flex flex-col md:flex-row justify-between">
+                <div>
+                  <h5 className="text-lg font-semibold">• Bachelor of Computer Science (Artificial Intelligence)</h5>
+                  <p className="text-gray-700">Ho Chi Minh University of Technology - VNU HCM</p>
+                </div>
+                <p className="text-gray-700">2023-current</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Personal Projects */}
+          <div className="mb-6">
+            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Personal Projects</h4>
+            <div className="ml-2">
+              <h5 className="text-lg font-semibold">• Trash-Density Detection with Image Intensity Normalization Algorithms</h5>
+              <p className="text-gray-700 italic mb-2">A project utilizing to fine-tune the YOLOv8 nano version for classifying trash density across three different levels.</p>
+              <ul className="list-none ml-4 text-gray-700">
+                <li>– Use YOLOv8 to segment waste and create coverage areas (masks)</li>
+                <li>– Use the pixel intensity algorithm on the masks to calculate the level of waste</li>
+                <li>– Technology Used: Python, YOLO, Roboflow</li>
+              </ul>
+            </div>
+          </div>
+          
+          {/* Experience */}
+          <div className="mb-6">
+            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Experience</h4>
+            <div className="ml-2 space-y-4">
+              <div>
+                <div className="flex flex-col md:flex-row justify-between">
+                  <h5 className="text-lg font-semibold">• Technical Reviewer</h5>
+                  <span className="text-gray-700">Remote</span>
+                </div>
+                <p className="text-gray-700">Robusto AI</p>
+                <ul className="list-none ml-4 text-gray-700">
+                  <li>– Support Project Manager in creating and developing Latex template for lesson, course and homework for capy-data.io</li>
+                  <li>– Take charge of developing online notebook for lab practice in Computer Vision course such as Object Detection and Object Tracking Algorithm</li>
+                </ul>
+              </div>
+              
+              <div>
+                <div className="flex flex-col md:flex-row justify-between">
+                  <h5 className="text-lg font-semibold">• Research Assistant</h5>
+                  <span className="text-gray-700">Hybrid</span>
+                </div>
+                <p className="text-gray-700">Ho Chi Minh University of Technology - VNU HCM</p>
+                <ul className="list-none ml-4 text-gray-700">
+                  <li>– Learned about various Machine Learning and Deep Learning method for developing problem in Computer Vision</li>
+                  <li>– Learned basics of writing academic report for conference and meeting</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          {/* Technical Skills */}
+          <div className="mb-6">
+            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Technical Skills and Interests</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ml-2">
+              <div>
+                <p><span className="font-semibold">Languages:</span> C/C++, Python, Markdown</p>
+              </div>
+              <div>
+                <p><span className="font-semibold">Libraries and frameworks:</span> C++ xtensor, Python Data Visualization Libraries like pandas, numpy, matplotlib, scikit-learn, Pytorch</p>
+              </div>
+              <div>
+                <p><span className="font-semibold">Version Control:</span> Git, Github</p>
+              </div>
+              <div>
+                <p><span className="font-semibold">Areas of Interest:</span> AI training and deployment, Data Visualization, Feature Extraction, Cloud Basic on GCP</p>
+              </div>
+              <div>
+                <p><span className="font-semibold">Soft Skills:</span> Problem Solving, Critical Thinking, Presentation, Adaptability</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Publications */}
+          <div className="mb-6">
+            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Publications</h4>
+            <div className="ml-2">
+              <h5 className="text-lg font-semibold">• Real-Time Traffic Monitoring System Featuring IntDetX and Consistent Weighted Dual Label Assignment</h5>
+              <ul className="list-none ml-4 text-gray-700">
+                <li>– Develop an architecture combine between speed of YOLOv8 and accuracy of EfficientDet-B7 called IntDetX to maximimize the ability in detect traffic</li>
+                <li>– Improve the Level of Service (LOS) framework to offer a more comprehensive and precise set of criteria for real-time traffic analysis.</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="flex justify-center mt-8">
+            <Button 
+              className="flex items-center gap-2"
+              onClick={() => window.open("/resume.pdf", "_blank")}
+            >
               <Download className="h-4 w-4" />
               Download Full CV
             </Button>
           </div>
-          
-          <div className="mb-8">
-            <h4 className="text-xl font-semibold mb-4">Education</h4>
-            <div className="border-l-2 border-accent pl-4 space-y-6">
-              <div>
-                <h5 className="text-lg font-medium">B.S. in Computer Science and Engineering</h5>
-                <p className="text-secondary/70">Ho Chi Minh City University of Technology (HCMUT-VNU)</p>
-                <p className="text-accent font-medium">2021 - Present</p>
-                <p className="mt-2">Focusing on Artificial Intelligence and Data Science</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="mb-8">
-            <h4 className="text-xl font-semibold mb-4">Skills</h4>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <div>
-                <h5 className="font-medium mb-2">Programming</h5>
-                <ul className="list-disc list-inside text-secondary/70">
-                  <li>Python</li>
-                  <li>C/C++</li>
-                  <li>JavaScript/TypeScript</li>
-                  <li>Java</li>
-                </ul>
-              </div>
-              <div>
-                <h5 className="font-medium mb-2">AI & Machine Learning</h5>
-                <ul className="list-disc list-inside text-secondary/70">
-                  <li>TensorFlow</li>
-                  <li>PyTorch</li>
-                  <li>Computer Vision</li>
-                  <li>Natural Language Processing</li>
-                </ul>
-              </div>
-              <div>
-                <h5 className="font-medium mb-2">Other Technologies</h5>
-                <ul className="list-disc list-inside text-secondary/70">
-                  <li>Web Development</li>
-                  <li>Database Management</li>
-                  <li>Cloud Computing</li>
-                  <li>Containerization</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          
-          <div>
-            <h4 className="text-xl font-semibold mb-4">Experience</h4>
-            <div className="border-l-2 border-accent pl-4 space-y-6">
-              <div>
-                <h5 className="text-lg font-medium">AI Research Assistant</h5>
-                <p className="text-secondary/70">University AI Research Lab</p>
-                <p className="text-accent font-medium">2023 - Present</p>
-                <p className="mt-2">Conducting research in computer vision and deep learning applications</p>
-              </div>
-              <div>
-                <h5 className="text-lg font-medium">Software Engineering Intern</h5>
-                <p className="text-secondary/70">Tech Company</p>
-                <p className="text-accent font-medium">Summer 2022</p>
-                <p className="mt-2">Developed and implemented machine learning algorithms for data analysis</p>
-              </div>
-            </div>
-          </div>
         </motion.div>
-        
-        <div className="text-center">
-          <Button 
-            variant="outline"
-            onClick={() => window.open("mailto:contact@anhduc.com", "_blank")}
-          >
-            Contact Me
-          </Button>
-        </div>
       </div>
     </section>
   );

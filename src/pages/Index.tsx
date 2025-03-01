@@ -19,7 +19,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Footer with black outline */}
+      {/* Footer */}
       <footer className="mt-16 py-8 border-t-4 border-black bg-gray-900 text-white">
         <div className="container mx-auto px-4 text-center">
           <p className="text-lg font-semibold">

@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export const Hero = () => {
   const handleResumeClick = () => {
-    // Replace with actual resume link or download
-    window.open("https://anhduc.vercel.app/resume", "_blank");
+    document.getElementById("resume")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -24,7 +23,7 @@ export const Hero = () => {
             Portfolio
           </h2>
           <p className="text-xl md:text-2xl text-secondary/80 mb-8">
-            Specializing in AI, Data Science, and 3D Animation
+            Specializing in AI, Data Science, and Computer Vision
           </p>
           <div className="flex justify-center gap-6 mb-10">
             <Code size={32} className="text-accent" />
