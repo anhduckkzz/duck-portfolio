@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { Code, Brain, Globe, FileText, Github, Linkedin, Instagram, Twitter, Youtube, Mail } from "lucide-react";
+import { Code, Brain, Globe, FileText, Github, Linkedin, Instagram, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Hero = () => {
@@ -35,42 +35,50 @@ export const Hero = () => {
           <div className="flex flex-wrap gap-6 justify-center items-center mb-10">
             {/* GitHub */}
             <SocialMediaCard 
-              icon={<Github className="h-5 w-5" />} 
+              icon={<Github className="h-5 w-5 text-white" />} 
               title="GitHub" 
               subtitle="Code" 
               url="https://github.com/trananh-duc" 
+              bgFrom="from-gray-800"
+              bgTo="to-black"
+              highlightColor="bg-white"
+              textColor="text-white"
             />
             
             {/* LinkedIn */}
             <SocialMediaCard 
-              icon={<Linkedin className="h-5 w-5" />} 
+              icon={<Linkedin className="h-5 w-5 text-white" />} 
               title="LinkedIn" 
               subtitle="Connect" 
               url="https://linkedin.com/in/trananh-duc" 
+              bgFrom="from-[#0077B5]"
+              bgTo="to-[#0A66C2]"
+              highlightColor="bg-[#0A66C2]"
+              textColor="text-white"
             />
             
             {/* Instagram */}
             <SocialMediaCard 
-              icon={<Instagram className="h-5 w-5" />} 
+              icon={<Instagram className="h-5 w-5 text-white" />} 
               title="Instagram" 
               subtitle="Photos" 
               url="https://instagram.com/trananh-duc" 
+              bgFrom="from-[#fd5949]"
+              bgTo="to-[#FCAF45]"
+              highlightColor="bg-gradient-to-r from-[#fd5949] to-[#FCAF45]"
+              textColor="text-white"
             />
             
-            {/* Twitter */}
+            {/* Gmail */}
             <SocialMediaCard 
-              icon={<Twitter className="h-5 w-5" />} 
-              title="Twitter" 
-              subtitle="Updates" 
-              url="https://twitter.com/trananh-duc" 
-            />
-            
-            {/* Mail */}
-            <SocialMediaCard 
-              icon={<Mail className="h-5 w-5" />} 
-              title="Email" 
+              icon={<Mail className="h-5 w-5 text-white" />} 
+              title="Gmail" 
               subtitle="Contact" 
               url="mailto:trananhduc522005@gmail.com" 
+              bgFrom="from-[#EA4335]"
+              bgTo="to-[#4285F4]"
+              highlightColor="bg-gradient-to-r from-[#EA4335] via-[#FBBC05] via-[#34A853] to-[#4285F4]"
+              textColor="text-white"
             />
           </div>
           
@@ -100,12 +108,20 @@ const SocialMediaCard = ({
   icon, 
   title, 
   subtitle, 
-  url 
+  url,
+  bgFrom,
+  bgTo,
+  highlightColor,
+  textColor
 }: { 
   icon: React.ReactNode; 
   title: string; 
   subtitle: string; 
   url: string;
+  bgFrom: string;
+  bgTo: string;
+  highlightColor: string;
+  textColor: string;
 }) => {
   return (
     <label className="text-gray-400 cursor-pointer">
@@ -122,24 +138,24 @@ const SocialMediaCard = ({
           }
         }} 
       />
-      <div className="group flex flex-col gap-4 w-32 h-40 bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl p-4 shadow-xl border-2 border-transparent transition-all duration-300 ease-in-out hover:border-indigo-500 hover:shadow-indigo-500/20 peer-checked:border-indigo-500 peer-checked:from-indigo-900/50 peer-checked:to-gray-900 peer-checked:translate-y-[-0.5rem]">
+      <div className={`group flex flex-col gap-4 w-32 h-40 bg-gradient-to-b ${bgFrom} ${bgTo} rounded-2xl p-4 shadow-xl border-2 border-transparent transition-all duration-300 ease-in-out hover:border-white/50 hover:shadow-white/20 peer-checked:border-white/70 peer-checked:translate-y-[-0.5rem]`}>
         <div className="relative">
-          <div className="w-12 h-12 mx-auto bg-indigo-500/20 rounded-lg border-2 border-indigo-500/40 group-hover:border-indigo-400 group-hover:bg-indigo-500/30 peer-checked:border-indigo-400 peer-checked:bg-indigo-500/30 transition-all duration-300 flex items-center justify-center">
+          <div className="w-12 h-12 mx-auto bg-white/20 rounded-lg border-2 border-white/40 group-hover:border-white/60 group-hover:bg-white/30 peer-checked:border-white/60 peer-checked:bg-white/30 transition-all duration-300 flex items-center justify-center">
             {icon}
           </div>
-          <div className="absolute top-0 right-6 w-3 h-3 rounded-full bg-gray-600 group-hover:bg-indigo-400 group-hover:animate-pulse peer-checked:bg-indigo-400 peer-checked:animate-pulse transition-all duration-300"></div>
+          <div className={`absolute top-0 right-6 w-3 h-3 rounded-full bg-gray-600 group-hover:${highlightColor.includes('gradient') ? highlightColor : highlightColor} group-hover:animate-pulse peer-checked:${highlightColor.includes('gradient') ? highlightColor : highlightColor} peer-checked:animate-pulse transition-all duration-300`}></div>
         </div>
 
         <div className="text-center">
-          <p className="font-medium text-sm group-hover:text-indigo-400 peer-checked:text-indigo-400 transition-colors duration-300">
+          <p className={`font-medium text-sm group-hover:${textColor} peer-checked:${textColor} transition-colors duration-300`}>
             {title}
           </p>
-          <p className="text-xs mt-1 opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+          <p className={`text-xs mt-1 opacity-60 group-hover:opacity-100 transition-opacity duration-300 ${textColor}`}>
             {subtitle}
           </p>
         </div>
 
-        <div className="h-1 w-0 bg-indigo-500 rounded-full mx-auto group-hover:w-full peer-checked:w-full transition-all duration-300"></div>
+        <div className={`h-1 w-0 ${highlightColor} rounded-full mx-auto group-hover:w-full peer-checked:w-full transition-all duration-300`}></div>
       </div>
     </label>
   );

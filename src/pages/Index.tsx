@@ -12,11 +12,12 @@ const Index = () => {
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle('dark');
+    // Instead of toggling the dark class on the body, we'll pass the isDarkMode state to the ChatbotProject
+    // document.body.classList.toggle('dark');
   };
 
   return (
-    <div className={`min-h-screen bg-gradient-to-b ${isDarkMode ? 'from-gray-900 to-gray-800' : 'from-white to-primary'}`}>
+    <div className="min-h-screen bg-gradient-to-b from-white to-primary">
       <div className="fixed top-4 right-4 z-50">
         <ThemeToggle onToggle={toggleTheme} />
       </div>
@@ -27,7 +28,7 @@ const Index = () => {
       <section className="container-padding" id="chatbots">
         <div className="max-w-3xl mx-auto">
           <h2 className="section-title">AI Assistant</h2>
-          <ChatbotProject />
+          <ChatbotProject isDarkMode={isDarkMode} />
         </div>
       </section>
       

@@ -54,21 +54,21 @@ body.scrolling img {
   filter: grayscale(0%);
 }
 
-/* Dark mode styles */
-.dark {
+/* Chatbot dark mode styles - Only applied to the chatbot section */
+.chatbot-dark {
   background-color: #1a1a1a;
   color: #ffffff;
 }
 
-.dark .glass-card {
+.chatbot-dark .glass-card {
   background: #6E59A5 !important; /* Purple background for dark mode */
   backdrop-filter: blur(10px);
   color: #FFFFFF !important; /* White text in dark mode */
 }
 
 /* Input styles for dark mode */
-.dark input, 
-.dark textarea {
+.chatbot-dark input, 
+.chatbot-dark textarea {
   background-color: #7E69AB !important; /* Lighter purple for inputs */
   color: #ffffff !important;
   border-color: #9b87f5 !important; /* Lighter border color */
@@ -83,32 +83,32 @@ footer {
 }
 
 /* Fix for dark mode popover */
-.dark .popover-content {
+.chatbot-dark .popover-content {
   background-color: #6E59A5 !important; /* Match the purple background */
   color: #ffffff !important;
   border-color: #9b87f5 !important;
 }
 
 /* Message styling for dark mode */
-.dark .bg-gray-700\/50 {
+.chatbot-dark .bg-gray-700\/50 {
   background-color: #7E69AB !important; /* Lighter purple for message container */
 }
 
-.dark .bg-gray-600 {
+.chatbot-dark .bg-gray-600 {
   background-color: #8B5CF6 !important; /* Vibrant purple for bot messages */
 }
 
 /* Dark mode button styling */
-.dark .dark\:bg-blue-600 {
+.chatbot-dark .dark\:bg-blue-600 {
   background-color: #9b87f5 !important; /* Primary purple for buttons */
 }
 
-.dark .dark\:hover\:bg-blue-700 {
+.chatbot-dark .dark\:hover\:bg-blue-700 {
   background-color: #7E69AB !important; /* Darker purple for button hover */
 }
 
 /* Admin mode notification in dark mode */
-.dark .bg-blue-800 {
+.chatbot-dark .bg-blue-800 {
   background-color: #6E59A5 !important; /* Dark purple for admin notification */
 }
 
@@ -185,11 +185,18 @@ footer {
 }
 
 /* Social Media Card styles */
-.dark .social-media-card {
-  background-gradient: linear-gradient(to bottom, #3b3b3b, #1f1f1f);
-  border-color: #9b87f5;
+.social-media-github {
+  background: linear-gradient(to bottom, #333333, #000000);
 }
 
-.dark .social-media-pulse {
-  background-color: #9b87f5;
+.social-media-linkedin {
+  background: linear-gradient(to bottom, #0077B5, #0A66C2);
+}
+
+.social-media-instagram {
+  background: linear-gradient(to right, #fd5949, #d6249f, #285AEB);
+}
+
+.social-media-gmail {
+  background: linear-gradient(to right, #EA4335, #FBBC05, #34A853, #4285F4);
 }
