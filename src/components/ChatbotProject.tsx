@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -22,6 +21,11 @@ type Message = {
   role: "user" | "bot";
   content: string;
 };
+
+// Add the props type definition for ChatbotProject
+interface ChatbotProjectProps {
+  isDarkMode: boolean;
+}
 
 const INITIAL_MODEL_NAME = "google/gemini-flash-1.5-8b-exp";
 const DEFAULT_API_KEY = "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";
@@ -187,7 +191,7 @@ const PDFViewer = ({ pdfUrl }: { pdfUrl: string | null }) => {
   );
 };
 
-export const ChatbotProject = () => {
+export const ChatbotProject = ({ isDarkMode }: ChatbotProjectProps) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
