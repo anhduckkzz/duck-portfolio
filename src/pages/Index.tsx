@@ -4,10 +4,22 @@ import { Projects } from "@/components/Projects";
 import { ThreeAnimation } from "@/components/ThreeAnimation";
 import { ChatbotProject } from "@/components/ChatbotProject";
 import { Resume } from "@/components/Resume";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useState } from "react";
 
 const Index = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.body.classList.toggle('dark');
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-primary">
+    <div className={`min-h-screen bg-gradient-to-b ${isDarkMode ? 'from-gray-900 to-gray-800' : 'from-white to-primary'}`}>
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle onToggle={toggleTheme} />
+      </div>
       <ThreeAnimation />
       <Hero />
       <Resume />
