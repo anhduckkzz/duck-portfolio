@@ -4,23 +4,13 @@ import { Projects } from "@/components/Projects";
 import { ThreeAnimation } from "@/components/ThreeAnimation";
 import { ChatbotProject } from "@/components/ChatbotProject";
 import { Resume } from "@/components/Resume";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { useState } from "react";
 
 const Index = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    // Instead of toggling the dark class on the body, we'll pass the isDarkMode state to the ChatbotProject
-    // document.body.classList.toggle('dark');
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-primary">
-      <div className="fixed top-4 right-4 z-50">
-        <ThemeToggle onToggle={toggleTheme} />
-      </div>
       <ThreeAnimation />
       <Hero />
       <Resume />

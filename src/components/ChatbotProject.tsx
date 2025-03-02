@@ -9,6 +9,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeHighlight from 'rehype-highlight';
 import 'katex/dist/katex.min.css';
+import { ThemeToggle } from "@/components/ThemeToggle";
 import {
   Popover,
   PopoverContent,
@@ -24,7 +25,7 @@ type Message = {
 
 // Add the props type definition for ChatbotProject
 interface ChatbotProjectProps {
-  isDarkMode: boolean;
+  isDarkMode?: boolean; // Make it optional with a default value
 }
 
 const INITIAL_MODEL_NAME = "google/gemini-flash-1.5-8b-exp";
@@ -191,7 +192,7 @@ const PDFViewer = ({ pdfUrl }: { pdfUrl: string | null }) => {
   );
 };
 
-export const ChatbotProject = ({ isDarkMode }: ChatbotProjectProps) => {
+export const ChatbotProject = ({ isDarkMode: parentIsDarkMode }: ChatbotProjectProps) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -199,13 +200,20 @@ export const ChatbotProject = ({ isDarkMode }: ChatbotProjectProps) => {
   const [modelName, setModelName] = useState(INITIAL_MODEL_NAME);
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [secretCode, setSecretCode] = useState("");
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(parentIsDarkMode || false);
   const [isColorMode, setIsColorMode] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
   
   // New state for PDF handling
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+
+  // Use the parent isDarkMode value if provided
+  useEffect(() => {
+    if (parentIsDarkMode !== undefined) {
+      setIsDarkMode(parentIsDarkMode);
+    }
+  }, [parentIsDarkMode]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -338,8 +346,12 @@ export const ChatbotProject = ({ isDarkMode }: ChatbotProjectProps) => {
     }
   };
 
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   return (
-    <div className={`transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+    <div className={`transition-colors duration-300 ${isDarkMode ? 'chatbot-dark' : ''}`}>
       <AnimatePresence>
         {showAnimation && <AdminModeAnimation show={showAnimation} />}
       </AnimatePresence>
@@ -393,13 +405,9 @@ export const ChatbotProject = ({ isDarkMode }: ChatbotProjectProps) => {
           <Button variant="ghost" size="icon" onClick={() => window.open('/demo', '_blank')}>
             <PlayCircle className="h-5 w-5" />
           </Button>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => setIsDarkMode(!isDarkMode)}
-          >
-            {isDarkMode ? '🌞' : '🌙'}
-          </Button>
+          <div className="scale-75">
+            <ThemeToggle onToggle={toggleTheme} />
+          </div>
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -500,4 +508,9 @@ export const ChatbotProject = ({ isDarkMode }: ChatbotProjectProps) => {
       </Card>
     </div>
   );
+};
+
+// Set default props
+ChatbotProject.defaultProps = {
+  isDarkMode: false,
 };
