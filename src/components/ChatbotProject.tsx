@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/popover";
 import { Components } from 'react-markdown';
 import * as THREE from 'three';
+import { useTheme } from "./ThemeProvider";
 
 type Message = {
   role: "user" | "bot";
@@ -201,6 +202,8 @@ export const ChatbotProject = () => {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
+  const { theme } = useTheme();
+  
   useEffect(() => {
     // Apply dark mode class to body when dark mode is toggled
     if (isDarkMode) {
@@ -244,7 +247,7 @@ export const ChatbotProject = () => {
       window.removeEventListener("keypress", handleKeyPress);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isDarkMode]);
+  }, [theme]);
 
   // Handle PDF file upload
   const handlePdfUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -345,7 +348,7 @@ export const ChatbotProject = () => {
   };
 
   return (
-    <div className={`transition-colors duration-300 ${isDarkMode ? 'dark-theme' : ''}`}>
+    <div className="transition-colors duration-300">
       <AnimatePresence>
         {showAnimation && <AdminModeAnimation show={showAnimation} />}
       </AnimatePresence>
@@ -361,22 +364,22 @@ export const ChatbotProject = () => {
         </motion.div>
       )}
       
-      <Card className={`glass-card p-6 relative ${isDarkMode ? 'dark-card' : ''}`}>
+      <Card className="glass-card p-6 relative">
         {/* PDF Upload Section - Only visible in admin mode */}
         {isAdminMode && (
           <motion.div 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="mb-6 p-4 border border-dashed rounded-lg"
+            className="mb-6 p-4 border border-dashed rounded-lg dark:border-darkmode-border"
           >
-            <h4 className="text-lg font-medium mb-2">CV PDF Uploader (Admin Only)</h4>
+            <h4 className="text-lg font-medium mb-2 dark:text-darkmode-text">CV PDF Uploader (Admin Only)</h4>
             <div className="flex items-center gap-3">
               <Input 
                 type="file" 
                 accept="application/pdf" 
                 onChange={handlePdfUpload}
-                className="flex-1"
+                className="flex-1 dark:bg-darkmode-card dark:text-darkmode-text"
               />
               <Button variant="outline" onClick={() => document.getElementById('pdf-upload')?.click()}>
                 <Upload className="h-4 w-4 mr-2" />
@@ -416,7 +419,7 @@ export const ChatbotProject = () => {
                 <Settings className="h-5 w-5" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className={`w-80 popover-content ${isDarkMode ? 'dark-popover' : ''}`}>
+            <PopoverContent className="w-80 popover-content">
               <div className="space-y-4">
                 <h4 className="font-medium">Settings</h4>
                 <div className="space-y-2">
@@ -430,7 +433,7 @@ export const ChatbotProject = () => {
                         value={apiKey}
                         onChange={(e) => setApiKey(e.target.value)}
                         placeholder="Enter your API key"
-                        className="bg-background"
+                        className="bg-background dark:bg-darkmode-card"
                       />
                       <label className="text-sm text-muted-foreground">
                         Model Name
@@ -439,7 +442,7 @@ export const ChatbotProject = () => {
                         value={modelName}
                         onChange={(e) => setModelName(e.target.value)}
                         placeholder="Enter model name"
-                        className="bg-background"
+                        className="bg-background dark:bg-darkmode-card"
                       />
                     </>
                   ) : (
@@ -456,12 +459,12 @@ export const ChatbotProject = () => {
           </Popover>
         </div>
 
-        <h3 className="text-xl font-semibold mb-4">OpenRouter AI Assistant</h3>
-        <p className="mb-6 text-secondary/80">
+        <h3 className="text-xl font-semibold mb-4 dark:text-darkmode-text">OpenRouter AI Assistant</h3>
+        <p className="mb-6 text-secondary/80 dark:text-darkmode-text/80">
           Model: {modelName}
         </p>
         <div className="space-y-4">
-          <div className={`h-60 overflow-y-auto space-y-2 mb-4 p-4 rounded ${isDarkMode ? 'bg-gray-800/50' : 'bg-white/50'}`}>
+          <div className="h-60 overflow-y-auto space-y-2 mb-4 p-4 rounded bg-white/50 dark:bg-darkmode-card/50">
             {messages.map((msg, index) => (
               <motion.div
                 key={index}

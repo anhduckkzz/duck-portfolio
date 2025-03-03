@@ -4,23 +4,27 @@ import { Projects } from "@/components/Projects";
 import { ThreeAnimation } from "@/components/ThreeAnimation";
 import { ChatbotProject } from "@/components/ChatbotProject";
 import { Resume } from "@/components/Resume";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-primary">
+    <div className="min-h-screen bg-gradient-to-b from-white to-primary dark:from-darkmode-bg dark:to-darkmode-bg">
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
       <ThreeAnimation />
       <Hero />
       <Resume />
       <Projects />
       <section className="container-padding" id="chatbots">
         <div className="max-w-3xl mx-auto">
-          <h2 className="section-title">AI Assistant</h2>
+          <h2 className="section-title dark:text-darkmode-text">AI Assistant</h2>
           <ChatbotProject />
         </div>
       </section>
       
       {/* Footer */}
-      <footer className="mt-16 py-8 border-t-4 border-black bg-gray-900 text-white">
+      <footer className="mt-16 py-8 border-t-4 border-black dark:border-darkmode-border bg-gray-900 text-white">
         <div className="container mx-auto px-4 text-center">
           <p className="text-lg font-semibold">
             Trần Anh Đức

@@ -14,6 +14,14 @@
     --ring: 0 0% 20%;
   }
 
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+
   * {
     @apply border-border;
   }
@@ -25,11 +33,11 @@
 
 @layer components {
   .glass-card {
-    @apply backdrop-blur-lg bg-white/90 border border-white/20 shadow-lg;
+    @apply backdrop-blur-lg bg-white/90 border border-white/20 shadow-lg dark:bg-darkmode-card/80 dark:border-darkmode-border;
   }
   
   .section-title {
-    @apply text-4xl font-bold mb-8 text-secondary;
+    @apply text-4xl font-bold mb-8 text-secondary dark:text-darkmode-text;
   }
   
   .container-padding {
@@ -38,7 +46,7 @@
 }
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary via-secondary/80 to-accent;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary via-secondary/80 to-accent dark:from-darkmode-text dark:via-darkmode-text/80 dark:to-accent;
 }
 
 .hover-scale {
