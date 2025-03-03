@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,7 +10,6 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeHighlight from 'rehype-highlight';
 import 'katex/dist/katex.min.css';
-import { ThemeToggle } from "@/components/ThemeToggle";
 import {
   Popover,
   PopoverContent,
@@ -22,11 +22,6 @@ type Message = {
   role: "user" | "bot";
   content: string;
 };
-
-// Add the props type definition for ChatbotProject
-interface ChatbotProjectProps {
-  isDarkMode?: boolean; // Make it optional with a default value
-}
 
 const INITIAL_MODEL_NAME = "google/gemini-flash-1.5-8b-exp";
 const DEFAULT_API_KEY = "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";
@@ -90,8 +85,6 @@ const AdminModeAnimation = ({ show }: { show: boolean }) => {
       color: 0x33C3F0,
       emissive: 0x0EA5E9,
       emissiveIntensity: 0.5,
-      // Removed metalness property since it's not supported by MeshPhongMaterial
-      // using shininess instead which is supported
       shininess: 80
     });
     const head = new THREE.Mesh(headGeometry, headMaterial);
@@ -192,7 +185,7 @@ const PDFViewer = ({ pdfUrl }: { pdfUrl: string | null }) => {
   );
 };
 
-export const ChatbotProject = ({ isDarkMode: parentIsDarkMode }: ChatbotProjectProps) => {
+export const ChatbotProject = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -200,20 +193,12 @@ export const ChatbotProject = ({ isDarkMode: parentIsDarkMode }: ChatbotProjectP
   const [modelName, setModelName] = useState(INITIAL_MODEL_NAME);
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [secretCode, setSecretCode] = useState("");
-  const [isDarkMode, setIsDarkMode] = useState(parentIsDarkMode || false);
   const [isColorMode, setIsColorMode] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
   
   // New state for PDF handling
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-
-  // Use the parent isDarkMode value if provided
-  useEffect(() => {
-    if (parentIsDarkMode !== undefined) {
-      setIsDarkMode(parentIsDarkMode);
-    }
-  }, [parentIsDarkMode]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -346,12 +331,8 @@ export const ChatbotProject = ({ isDarkMode: parentIsDarkMode }: ChatbotProjectP
     }
   };
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
   return (
-    <div className={`transition-colors duration-300 ${isDarkMode ? 'chatbot-dark' : ''}`}>
+    <div className="transition-colors duration-300">
       <AnimatePresence>
         {showAnimation && <AdminModeAnimation show={showAnimation} />}
       </AnimatePresence>
@@ -361,13 +342,13 @@ export const ChatbotProject = ({ isDarkMode: parentIsDarkMode }: ChatbotProjectP
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-40 px-4 py-2 rounded-md ${isDarkMode ? 'bg-blue-800' : 'bg-blue-500'} text-white font-medium`}
+          className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40 px-4 py-2 rounded-md bg-blue-500 text-white font-medium"
         >
           Admin Mode Activated
         </motion.div>
       )}
       
-      <Card className={`glass-card p-6 relative ${isDarkMode ? 'dark:bg-gray-800 dark:text-white' : ''}`}>
+      <Card className="glass-card p-6 relative">
         {/* PDF Upload Section - Only visible in admin mode */}
         {isAdminMode && (
           <motion.div 
@@ -405,9 +386,6 @@ export const ChatbotProject = ({ isDarkMode: parentIsDarkMode }: ChatbotProjectP
           <Button variant="ghost" size="icon" onClick={() => window.open('/demo', '_blank')}>
             <PlayCircle className="h-5 w-5" />
           </Button>
-          <div className="scale-75">
-            <ThemeToggle onToggle={toggleTheme} />
-          </div>
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -455,11 +433,11 @@ export const ChatbotProject = ({ isDarkMode: parentIsDarkMode }: ChatbotProjectP
         </div>
 
         <h3 className="text-xl font-semibold mb-4">OpenRouter AI Assistant</h3>
-        <p className={`mb-6 ${isDarkMode ? 'text-gray-300' : 'text-secondary/80'}`}>
+        <p className="mb-6 text-secondary/80">
           Model: {modelName}
         </p>
         <div className="space-y-4">
-          <div className={`h-60 overflow-y-auto space-y-2 mb-4 p-4 rounded ${isDarkMode ? 'bg-gray-700/50' : 'bg-white/50'}`}>
+          <div className="h-60 overflow-y-auto space-y-2 mb-4 p-4 rounded bg-white/50">
             {messages.map((msg, index) => (
               <motion.div
                 key={index}
@@ -467,12 +445,12 @@ export const ChatbotProject = ({ isDarkMode: parentIsDarkMode }: ChatbotProjectP
                 animate={{ opacity: 1, y: 0 }}
                 className={`p-2 rounded ${
                   msg.role === "user" 
-                    ? `${isDarkMode ? 'bg-blue-500/20' : 'bg-accent/10'} ml-auto` 
-                    : isDarkMode ? 'bg-gray-600' : 'bg-white'
+                    ? 'bg-accent/10 ml-auto' 
+                    : 'bg-white'
                 } max-w-[80%] ${msg.role === "user" ? "ml-auto" : "mr-auto"}`}
               >
                 {msg.role === "bot" ? (
-                  <div className={`prose prose-sm max-w-none ${isDarkMode ? 'dark:prose-invert' : ''}`}>
+                  <div className="prose prose-sm max-w-none">
                     <ReactMarkdown
                       components={components}
                       remarkPlugins={[remarkMath]}
@@ -499,7 +477,6 @@ export const ChatbotProject = ({ isDarkMode: parentIsDarkMode }: ChatbotProjectP
             <Button 
               onClick={handleSendMessage} 
               disabled={isLoading}
-              className={isDarkMode ? 'dark:bg-blue-600 dark:hover:bg-blue-700' : ''}
             >
               {isLoading ? "Sending..." : "Send"}
             </Button>
@@ -508,9 +485,4 @@ export const ChatbotProject = ({ isDarkMode: parentIsDarkMode }: ChatbotProjectP
       </Card>
     </div>
   );
-};
-
-// Set default props
-ChatbotProject.defaultProps = {
-  isDarkMode: false,
 };

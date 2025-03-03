@@ -4,29 +4,18 @@ import { Projects } from "@/components/Projects";
 import { ThreeAnimation } from "@/components/ThreeAnimation";
 import { ChatbotProject } from "@/components/ChatbotProject";
 import { Resume } from "@/components/Resume";
-import { useState } from "react";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Index = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-primary">
       <ThreeAnimation />
-      <div className="absolute top-4 right-4">
-        <ThemeToggle onToggle={toggleTheme} />
-      </div>
       <Hero />
       <Resume />
       <Projects />
       <section className="container-padding" id="chatbots">
         <div className="max-w-3xl mx-auto">
           <h2 className="section-title">AI Assistant</h2>
-          <ChatbotProject isDarkMode={isDarkMode} />
+          <ChatbotProject />
         </div>
       </section>
       
