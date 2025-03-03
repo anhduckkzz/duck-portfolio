@@ -1,10 +1,9 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings, FileText, Github, PlayCircle, Lock, Unlock, Upload } from "lucide-react";
+import { Settings, FileText, Github, PlayCircle, Lock, Unlock, Upload, Sun, Moon } from "lucide-react";
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -194,6 +193,8 @@ export const ChatbotProject = () => {
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [secretCode, setSecretCode] = useState("");
   const [isColorMode, setIsColorMode] = useState(false);
+  // Add dark mode state
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
   
   // New state for PDF handling
@@ -201,6 +202,13 @@ export const ChatbotProject = () => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   useEffect(() => {
+    // Apply dark mode class to body when dark mode is toggled
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+
     const handleKeyPress = (e: KeyboardEvent) => {
       setSecretCode(prev => {
         const newCode = prev + e.key;
@@ -236,7 +244,7 @@ export const ChatbotProject = () => {
       window.removeEventListener("keypress", handleKeyPress);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [isDarkMode]);
 
   // Handle PDF file upload
   const handlePdfUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -331,8 +339,13 @@ export const ChatbotProject = () => {
     }
   };
 
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setIsDarkMode(prev => !prev);
+  };
+
   return (
-    <div className="transition-colors duration-300">
+    <div className={`transition-colors duration-300 ${isDarkMode ? 'dark-theme' : ''}`}>
       <AnimatePresence>
         {showAnimation && <AdminModeAnimation show={showAnimation} />}
       </AnimatePresence>
@@ -348,7 +361,7 @@ export const ChatbotProject = () => {
         </motion.div>
       )}
       
-      <Card className="glass-card p-6 relative">
+      <Card className={`glass-card p-6 relative ${isDarkMode ? 'dark-card' : ''}`}>
         {/* PDF Upload Section - Only visible in admin mode */}
         {isAdminMode && (
           <motion.div 
@@ -377,6 +390,17 @@ export const ChatbotProject = () => {
         )}
         
         <div className="absolute top-6 right-6 flex gap-2">
+          {/* Dark Mode Toggle Button */}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={toggleDarkMode}
+            className="text-current"
+            aria-label="Toggle dark mode"
+          >
+            {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </Button>
+          
           <Button variant="ghost" size="icon" onClick={() => window.open('/docs', '_blank')}>
             <FileText className="h-5 w-5" />
           </Button>
@@ -392,7 +416,7 @@ export const ChatbotProject = () => {
                 <Settings className="h-5 w-5" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80 popover-content">
+            <PopoverContent className={`w-80 popover-content ${isDarkMode ? 'dark-popover' : ''}`}>
               <div className="space-y-4">
                 <h4 className="font-medium">Settings</h4>
                 <div className="space-y-2">
@@ -437,7 +461,7 @@ export const ChatbotProject = () => {
           Model: {modelName}
         </p>
         <div className="space-y-4">
-          <div className="h-60 overflow-y-auto space-y-2 mb-4 p-4 rounded bg-white/50">
+          <div className={`h-60 overflow-y-auto space-y-2 mb-4 p-4 rounded ${isDarkMode ? 'bg-gray-800/50' : 'bg-white/50'}`}>
             {messages.map((msg, index) => (
               <motion.div
                 key={index}
@@ -445,8 +469,8 @@ export const ChatbotProject = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className={`p-2 rounded ${
                   msg.role === "user" 
-                    ? 'bg-accent/10 ml-auto' 
-                    : 'bg-white'
+                    ? isDarkMode ? 'bg-blue-900/30 ml-auto' : 'bg-accent/10 ml-auto' 
+                    : isDarkMode ? 'bg-gray-700' : 'bg-white'
                 } max-w-[80%] ${msg.role === "user" ? "ml-auto" : "mr-auto"}`}
               >
                 {msg.role === "bot" ? (
@@ -472,11 +496,12 @@ export const ChatbotProject = () => {
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
               disabled={isLoading}
-              className="bg-background"
+              className={`${isDarkMode ? 'bg-gray-700 text-white' : 'bg-background'}`}
             />
             <Button 
               onClick={handleSendMessage} 
               disabled={isLoading}
+              className={isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : ''}
             >
               {isLoading ? "Sending..." : "Send"}
             </Button>

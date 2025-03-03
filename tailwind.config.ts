@@ -36,6 +36,12 @@ export default {
           DEFAULT: "#64E9EE",
           light: "#84F9FE",
         },
+        darkmode: {
+          bg: "#1A1F2C",
+          card: "#222222",
+          text: "#F1F1F1",
+          border: "rgba(255, 255, 255, 0.1)",
+        },
       },
       fontFamily: {
         sans: ["SF Pro Display", "system-ui", "sans-serif"],

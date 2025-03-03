@@ -78,3 +78,26 @@ footer {
 .social-media-gmail {
   background: linear-gradient(to right, #EA4335, #FBBC05, #34A853, #4285F4);
 }
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #1A1F2C;
+  color: #F1F1F1;
+}
+
+.dark-theme {
+  color: #F1F1F1;
+}
+
+.dark-card {
+  background-color: rgba(34, 34, 34, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dark-popover {
+  background-color: #222222 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #F1F1F1 !important;
+}
+
