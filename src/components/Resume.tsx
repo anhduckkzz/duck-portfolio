@@ -1,9 +1,13 @@
+
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Phone, Mail, Github, Linkedin } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const Resume = () => {
+  const credentialsRef = useRef<HTMLDivElement>(null);
+
   // Add useEffect to load the Credly script after component mounts
   useEffect(() => {
     const script = document.createElement('script');
@@ -13,6 +17,55 @@ export const Resume = () => {
 
     return () => {
       document.body.removeChild(script);
+    };
+  }, []);
+
+  // Add useEffect for the auto-scrolling animation
+  useEffect(() => {
+    const scrollContainer = credentialsRef.current;
+    if (!scrollContainer) return;
+
+    let scrollingRight = true;
+    let animationId: number;
+
+    const scrollAnimation = () => {
+      if (!scrollContainer) return;
+      
+      const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+      
+      if (scrollingRight) {
+        scrollContainer.scrollLeft += 1;
+        if (scrollContainer.scrollLeft >= maxScroll) {
+          scrollingRight = false;
+        }
+      } else {
+        scrollContainer.scrollLeft -= 1;
+        if (scrollContainer.scrollLeft <= 0) {
+          scrollingRight = true;
+        }
+      }
+      
+      animationId = requestAnimationFrame(scrollAnimation);
+    };
+
+    // Start the animation
+    animationId = requestAnimationFrame(scrollAnimation);
+
+    // Pause animation when user hovers over the container
+    const pauseAnimation = () => cancelAnimationFrame(animationId);
+    const resumeAnimation = () => {
+      animationId = requestAnimationFrame(scrollAnimation);
+    };
+
+    scrollContainer.addEventListener('mouseenter', pauseAnimation);
+    scrollContainer.addEventListener('mouseleave', resumeAnimation);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      if (scrollContainer) {
+        scrollContainer.removeEventListener('mouseenter', pauseAnimation);
+        scrollContainer.removeEventListener('mouseleave', resumeAnimation);
+      }
     };
   }, []);
 
@@ -150,42 +203,47 @@ export const Resume = () => {
           {/* Credentials Section */}
           <div className="mb-6">
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Credentials</h4>
-            <div className="flex flex-wrap justify-center gap-6 my-6">
-              <div 
-                className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
-                data-iframe-width="150" 
-                data-iframe-height="270" 
-                data-share-badge-id="1ce4b007-91f1-4e6f-9ac2-26b95a67c89b" 
-                data-share-badge-host="https://www.credly.com"
-              ></div>
-              <div 
-                className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
-                data-iframe-width="150" 
-                data-iframe-height="270" 
-                data-share-badge-id="2d84b8bf-223e-482a-9549-9f470c68efdf" 
-                data-share-badge-host="https://www.credly.com"
-              ></div>
-              <div 
-                className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
-                data-iframe-width="150" 
-                data-iframe-height="270" 
-                data-share-badge-id="077bded0-bac6-4e37-87af-a7a0583e0af3" 
-                data-share-badge-host="https://www.credly.com"
-              ></div>
-              <div 
-                className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
-                data-iframe-width="150" 
-                data-iframe-height="270" 
-                data-share-badge-id="86e35940-3f03-4b8e-8f54-90dcdbe67eb0" 
-                data-share-badge-host="https://www.credly.com"
-              ></div>
-              <div 
-                className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
-                data-iframe-width="150" 
-                data-iframe-height="270" 
-                data-share-badge-id="90ca16d2-494f-4730-8207-7f8560f4b8e5" 
-                data-share-badge-host="https://www.credly.com"
-              ></div>
+            <div 
+              ref={credentialsRef}
+              className="credentials-scroll-container overflow-x-scroll scrollbar-hide py-4 my-6"
+            >
+              <div className="credentials-scroll-content inline-flex gap-6 min-w-max px-4">
+                <div 
+                  className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                  data-iframe-width="150" 
+                  data-iframe-height="270" 
+                  data-share-badge-id="1ce4b007-91f1-4e6f-9ac2-26b95a67c89b" 
+                  data-share-badge-host="https://www.credly.com"
+                ></div>
+                <div 
+                  className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                  data-iframe-width="150" 
+                  data-iframe-height="270" 
+                  data-share-badge-id="2d84b8bf-223e-482a-9549-9f470c68efdf" 
+                  data-share-badge-host="https://www.credly.com"
+                ></div>
+                <div 
+                  className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                  data-iframe-width="150" 
+                  data-iframe-height="270" 
+                  data-share-badge-id="077bded0-bac6-4e37-87af-a7a0583e0af3" 
+                  data-share-badge-host="https://www.credly.com"
+                ></div>
+                <div 
+                  className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                  data-iframe-width="150" 
+                  data-iframe-height="270" 
+                  data-share-badge-id="86e35940-3f03-4b8e-8f54-90dcdbe67eb0" 
+                  data-share-badge-host="https://www.credly.com"
+                ></div>
+                <div 
+                  className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                  data-iframe-width="150" 
+                  data-iframe-height="270" 
+                  data-share-badge-id="90ca16d2-494f-4730-8207-7f8560f4b8e5" 
+                  data-share-badge-host="https://www.credly.com"
+                ></div>
+              </div>
             </div>
           </div>
           

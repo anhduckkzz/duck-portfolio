@@ -94,6 +94,28 @@ footer {
   min-height: 270px;
 }
 
+/* Credentials scrolling container */
+.credentials-scroll-container {
+  -ms-overflow-style: none;  /* Internet Explorer and Edge */
+  scrollbar-width: none;  /* Firefox */
+  cursor: grab;
+  position: relative;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.credentials-scroll-container::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+.credentials-scroll-container:active {
+  cursor: grabbing;
+}
+
+.credentials-scroll-content {
+  padding-bottom: 10px; /* Prevent badges from being cut off */
+}
+
 /* Dark mode styles */
 .dark body {
   background-color: #1A1F2C;
@@ -121,4 +143,14 @@ footer {
 
 .dark .prose-pre {
   background-color: #2A2A2A;
+}
+
+/* Scrollbar hide utility class */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
 }
