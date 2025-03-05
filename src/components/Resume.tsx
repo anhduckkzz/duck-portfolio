@@ -1,9 +1,21 @@
-
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Phone, Mail, Github, Linkedin } from "lucide-react";
+import { useEffect } from "react";
 
 export const Resume = () => {
+  // Add useEffect to load the Credly script after component mounts
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = "//cdn.credly.com/assets/utilities/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <section className="container-padding" id="resume">
       <div className="max-w-4xl mx-auto">
@@ -132,6 +144,19 @@ export const Resume = () => {
                 <li>– Develop an architecture combine between speed of YOLOv8 and accuracy of EfficientDet-B7 called IntDetX to maximimize the ability in detect traffic</li>
                 <li>– Improve the Level of Service (LOS) framework to offer a more comprehensive and precise set of criteria for real-time traffic analysis.</li>
               </ul>
+            </div>
+          </div>
+          
+          {/* Credentials Section */}
+          <div className="mb-6">
+            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Credentials</h4>
+            <div className="flex justify-center my-4">
+              <div 
+                data-iframe-width="150" 
+                data-iframe-height="270" 
+                data-share-badge-id="1ce4b007-91f1-4e6f-9ac2-26b95a67c89b" 
+                data-share-badge-host="https://www.credly.com"
+              ></div>
             </div>
           </div>
           
