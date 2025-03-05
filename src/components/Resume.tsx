@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Phone, Mail, Github, Linkedin } from "lucide-react";
@@ -171,6 +170,20 @@ export const Resume = () => {
                 data-iframe-width="150" 
                 data-iframe-height="270" 
                 data-share-badge-id="077bded0-bac6-4e37-87af-a7a0583e0af3" 
+                data-share-badge-host="https://www.credly.com"
+              ></div>
+              <div 
+                className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                data-iframe-width="150" 
+                data-iframe-height="270" 
+                data-share-badge-id="86e35940-3f03-4b8e-8f54-90dcdbe67eb0" 
+                data-share-badge-host="https://www.credly.com"
+              ></div>
+              <div 
+                className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                data-iframe-width="150" 
+                data-iframe-height="270" 
+                data-share-badge-id="90ca16d2-494f-4730-8207-7f8560f4b8e5" 
                 data-share-badge-host="https://www.credly.com"
               ></div>
             </div>
