@@ -151,20 +151,23 @@ export const Resume = () => {
           {/* Credentials Section */}
           <div className="mb-6">
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Credentials</h4>
-            <div className="flex flex-wrap justify-center gap-4 my-4">
+            <div className="flex flex-wrap justify-center gap-6 my-6">
               <div 
+                className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
                 data-iframe-width="150" 
                 data-iframe-height="270" 
                 data-share-badge-id="1ce4b007-91f1-4e6f-9ac2-26b95a67c89b" 
                 data-share-badge-host="https://www.credly.com"
               ></div>
               <div 
+                className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
                 data-iframe-width="150" 
                 data-iframe-height="270" 
                 data-share-badge-id="2d84b8bf-223e-482a-9549-9f470c68efdf" 
                 data-share-badge-host="https://www.credly.com"
               ></div>
               <div 
+                className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
                 data-iframe-width="150" 
                 data-iframe-height="270" 
                 data-share-badge-id="077bded0-bac6-4e37-87af-a7a0583e0af3" 

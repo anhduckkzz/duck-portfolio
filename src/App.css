@@ -79,6 +79,21 @@ footer {
   background: linear-gradient(to right, #EA4335, #FBBC05, #34A853, #4285F4);
 }
 
+/* Credly Badge Styles */
+.badge-container {
+  transform-origin: center;
+  will-change: transform;
+  z-index: 10;
+}
+
+.badge-container iframe {
+  width: 100% !important;
+  min-width: 150px;
+  max-width: 200px;
+  height: auto !important;
+  min-height: 270px;
+}
+
 /* Dark mode styles */
 .dark body {
   background-color: #1A1F2C;
