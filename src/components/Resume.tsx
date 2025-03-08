@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Phone, Mail, Github, Linkedin } from "lucide-react";
@@ -17,55 +16,6 @@ export const Resume = () => {
 
     return () => {
       document.body.removeChild(script);
-    };
-  }, []);
-
-  // Add useEffect for the auto-scrolling animation
-  useEffect(() => {
-    const scrollContainer = credentialsRef.current;
-    if (!scrollContainer) return;
-
-    let scrollingRight = true;
-    let animationId: number;
-
-    const scrollAnimation = () => {
-      if (!scrollContainer) return;
-      
-      const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
-      
-      if (scrollingRight) {
-        scrollContainer.scrollLeft += 1;
-        if (scrollContainer.scrollLeft >= maxScroll) {
-          scrollingRight = false;
-        }
-      } else {
-        scrollContainer.scrollLeft -= 1;
-        if (scrollContainer.scrollLeft <= 0) {
-          scrollingRight = true;
-        }
-      }
-      
-      animationId = requestAnimationFrame(scrollAnimation);
-    };
-
-    // Start the animation
-    animationId = requestAnimationFrame(scrollAnimation);
-
-    // Pause animation when user hovers over the container
-    const pauseAnimation = () => cancelAnimationFrame(animationId);
-    const resumeAnimation = () => {
-      animationId = requestAnimationFrame(scrollAnimation);
-    };
-
-    scrollContainer.addEventListener('mouseenter', pauseAnimation);
-    scrollContainer.addEventListener('mouseleave', resumeAnimation);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-      if (scrollContainer) {
-        scrollContainer.removeEventListener('mouseenter', pauseAnimation);
-        scrollContainer.removeEventListener('mouseleave', resumeAnimation);
-      }
     };
   }, []);
 
