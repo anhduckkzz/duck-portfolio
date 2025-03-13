@@ -9,7 +9,9 @@ import { ChatMessages } from './chatbot/ChatMessages';
 import { ChatInput } from './chatbot/ChatInput';
 import { ChatHeader } from './chatbot/ChatHeader';
 import { INITIAL_MODEL_NAME, DEFAULT_API_KEY, addSystemContext } from '@/utils/chatUtils';
+import { checkRateLimit, formatResetTime } from '@/utils/rateLimiter';
 import { useTheme } from "./ThemeProvider";
+import { useToast } from "@/components/ui/use-toast";
 
 export const ChatbotProject = () => {
   const [message, setMessage] = useState("");
@@ -20,15 +22,24 @@ export const ChatbotProject = () => {
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [secretCode, setSecretCode] = useState("");
   const [isColorMode, setIsColorMode] = useState(false);
-  // Add dark mode state
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
+  
+  // Rate limiting state
+  const [isRateLimited, setIsRateLimited] = useState(false);
+  const [rateLimitInfo, setRateLimitInfo] = useState({
+    minuteRemaining: 19,
+    dayRemaining: 199,
+    minuteResetTime: 0,
+    dayResetTime: 0
+  });
   
   // New state for PDF handling
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   const { theme } = useTheme();
+  const { toast } = useToast();
   
   useEffect(() => {
     // Apply dark mode class to body when dark mode is toggled
@@ -97,6 +108,39 @@ export const ChatbotProject = () => {
 
   const handleSendMessage = async () => {
     if (!message.trim() || isLoading) return;
+
+    // Check rate limit before processing request
+    const rateStatus = checkRateLimit();
+    
+    // Update rate limit info state
+    setRateLimitInfo({
+      minuteRemaining: rateStatus.minuteRemaining,
+      dayRemaining: rateStatus.dayRemaining,
+      minuteResetTime: rateStatus.minuteResetTime,
+      dayResetTime: rateStatus.dayResetTime
+    });
+    
+    // If rate limited, show toast and return
+    if (!rateStatus.allowed) {
+      setIsRateLimited(true);
+      
+      // Determine which limit was hit
+      const isMinuteLimit = rateStatus.minuteRemaining <= 0;
+      const message = isMinuteLimit 
+        ? `Minute limit reached. Next reset at ${formatResetTime(rateStatus.minuteResetTime)}.`
+        : `Daily limit reached. Next reset at ${formatResetTime(rateStatus.dayResetTime)}.`;
+      
+      toast({
+        title: "Rate Limit Exceeded",
+        description: message,
+        variant: "destructive"
+      });
+      
+      return;
+    }
+    
+    // Reset rate limited state if it was previously set
+    setIsRateLimited(false);
 
     const newUserMessage: Message = { role: "user", content: message };
     const newMessages = [...messages, newUserMessage];
@@ -191,6 +235,20 @@ export const ChatbotProject = () => {
       )}
       
       <Card className="glass-card p-6 relative">
+        {/* Rate limit info display */}
+        {isRateLimited && (
+          <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 rounded-md text-red-600 dark:text-red-300 text-sm">
+            <p className="font-medium">Rate limit exceeded</p>
+            <p>Requests remaining today: {rateLimitInfo.dayRemaining}/199</p>
+            <p>Requests remaining this minute: {rateLimitInfo.minuteRemaining}/19</p>
+          </div>
+        )}
+        
+        {/* Rate limit counter display (always visible) */}
+        <div className="mb-4 text-xs text-gray-500 dark:text-gray-400">
+          <p>Requests: {19 - rateLimitInfo.minuteRemaining}/19 per minute | {199 - rateLimitInfo.dayRemaining}/199 per day</p>
+        </div>
+        
         {/* PDF Upload Section - Only visible in admin mode */}
         {isAdminMode && (
           <PDFUploader onPdfUpload={handlePdfUpload} pdfUrl={pdfUrl} />
