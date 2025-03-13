@@ -53,6 +53,8 @@ export const checkRateLimit = (): {
   dayRemaining: number;
   minuteResetTime: number;
   dayResetTime: number;
+  minuteLimitExceeded: boolean;
+  dayLimitExceeded: boolean;
 } => {
   const info = getRateLimitInfo();
   
@@ -64,14 +66,18 @@ export const checkRateLimit = (): {
   localStorage.setItem('rateLimitInfo', JSON.stringify(info));
   
   // Check if either limit is exceeded
-  const allowed = info.minuteCount <= info.minuteLimit && info.dayCount <= info.dayLimit;
+  const minuteLimitExceeded = info.minuteCount > info.minuteLimit;
+  const dayLimitExceeded = info.dayCount > info.dayLimit;
+  const allowed = !minuteLimitExceeded && !dayLimitExceeded;
   
   return {
     allowed,
     minuteRemaining: info.minuteLimit - info.minuteCount,
     dayRemaining: info.dayLimit - info.dayCount,
     minuteResetTime: info.minuteReset,
-    dayResetTime: info.dayReset
+    dayResetTime: info.dayReset,
+    minuteLimitExceeded,
+    dayLimitExceeded
   };
 };
 

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,7 +30,9 @@ export const ChatbotProject = () => {
     minuteRemaining: 19,
     dayRemaining: 199,
     minuteResetTime: 0,
-    dayResetTime: 0
+    dayResetTime: 0,
+    minuteLimitExceeded: false,
+    dayLimitExceeded: false
   });
   
   // New state for PDF handling
@@ -117,24 +118,29 @@ export const ChatbotProject = () => {
       minuteRemaining: rateStatus.minuteRemaining,
       dayRemaining: rateStatus.dayRemaining,
       minuteResetTime: rateStatus.minuteResetTime,
-      dayResetTime: rateStatus.dayResetTime
+      dayResetTime: rateStatus.dayResetTime,
+      minuteLimitExceeded: rateStatus.minuteLimitExceeded,
+      dayLimitExceeded: rateStatus.dayLimitExceeded
     });
     
     // If rate limited, show toast and return
     if (!rateStatus.allowed) {
       setIsRateLimited(true);
       
-      // Determine which limit was hit
-      const isMinuteLimit = rateStatus.minuteRemaining <= 0;
-      const message = isMinuteLimit 
-        ? `Minute limit reached. Next reset at ${formatResetTime(rateStatus.minuteResetTime)}.`
-        : `Daily limit reached. Next reset at ${formatResetTime(rateStatus.dayResetTime)}.`;
-      
-      toast({
-        title: "Rate Limit Exceeded",
-        description: message,
-        variant: "destructive"
-      });
+      // Show different messages based on which limit was exceeded
+      if (rateStatus.minuteLimitExceeded) {
+        toast({
+          title: "Rate Limit Exceeded",
+          description: `Reached rate limit for this model per minute. Next reset at ${formatResetTime(rateStatus.minuteResetTime)}.`,
+          variant: "destructive"
+        });
+      } else if (rateStatus.dayLimitExceeded) {
+        toast({
+          title: "Rate Limit Exceeded",
+          description: `Reached rate limit for this model per day. Next reset at ${formatResetTime(rateStatus.dayResetTime)}.`,
+          variant: "destructive"
+        });
+      }
       
       return;
     }
@@ -239,6 +245,12 @@ export const ChatbotProject = () => {
         {isRateLimited && (
           <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 rounded-md text-red-600 dark:text-red-300 text-sm">
             <p className="font-medium">Rate limit exceeded</p>
+            {rateLimitInfo.minuteLimitExceeded && (
+              <p>Reached rate limit for this model per minute. Resets at {formatResetTime(rateLimitInfo.minuteResetTime)}</p>
+            )}
+            {rateLimitInfo.dayLimitExceeded && (
+              <p>Reached rate limit for this model per day. Resets at {formatResetTime(rateLimitInfo.dayResetTime)}</p>
+            )}
             <p>Requests remaining today: {rateLimitInfo.dayRemaining}/199</p>
             <p>Requests remaining this minute: {rateLimitInfo.minuteRemaining}/19</p>
           </div>
