@@ -20,12 +20,12 @@ export const ChatInput = ({ message, setMessage, handleSendMessage, isLoading, i
         onChange={(e) => setMessage(e.target.value)}
         onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
         disabled={isLoading}
-        className={`${isDarkMode ? 'bg-gray-700 text-white' : 'bg-background'}`}
+        className={`${isDarkMode ? 'bg-gray-700 text-white' : 'bg-background text-secondary'}`}
       />
       <Button 
         onClick={handleSendMessage} 
         disabled={isLoading}
-        className={isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : ''}
+        className={isDarkMode ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'text-white'}
       >
         {isLoading ? "Sending..." : "Send"}
       </Button>

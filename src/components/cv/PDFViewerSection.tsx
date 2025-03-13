@@ -20,15 +20,15 @@ export const PDFViewerSection = ({ pdfFile, pdfUrl, onPdfUpload }: PDFViewerSect
       exit={{ opacity: 0, height: 0 }}
       className="mb-6 p-4 border border-dashed rounded-lg dark:border-darkmode-border"
     >
-      <h4 className="text-lg font-medium mb-2 dark:text-darkmode-text">CV PDF Uploader (Admin Only)</h4>
+      <h4 className="text-lg font-medium mb-2 text-secondary dark:text-white">CV PDF Uploader (Admin Only)</h4>
       <div className="flex items-center gap-3">
         <Input 
           type="file" 
           accept="application/pdf" 
           onChange={onPdfUpload}
-          className="flex-1 dark:bg-darkmode-card dark:text-darkmode-text"
+          className="flex-1 text-secondary dark:bg-darkmode-card dark:text-white"
         />
-        <Button variant="outline" onClick={() => document.getElementById('pdf-upload')?.click()}>
+        <Button variant="outline" onClick={() => document.getElementById('pdf-upload')?.click()} className="text-secondary dark:text-white dark:hover:text-white">
           <Upload className="h-4 w-4 mr-2" />
           Upload PDF
         </Button>

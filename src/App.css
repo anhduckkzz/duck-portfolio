@@ -119,26 +119,40 @@ footer {
 /* Dark mode styles */
 .dark body {
   background-color: #1A1F2C;
-  color: #F1F1F1;
+  color: #FFFFFF;
 }
 
 .dark .glass-card {
   background-color: rgba(34, 34, 34, 0.8);
   border-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #FFFFFF;
 }
 
 .dark .popover-content {
   background-color: #222222;
   border-color: rgba(255, 255, 255, 0.1);
-  color: #F1F1F1;
+  color: #FFFFFF;
+}
+
+/* Text contrast overrides to ensure good readability */
+.dark a, .dark button, .dark input, .dark label, .dark p, .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, .dark span, .dark div {
+  color: #FFFFFF;
+}
+
+.dark .text-secondary, .dark .text-gray-500, .dark .text-gray-600, .dark .text-gray-700 {
+  color: #E0E0E0;
+}
+
+.dark .text-secondary\/80, .dark .text-gray-500\/80, .dark .text-gray-700\/80 {
+  color: rgba(224, 224, 224, 0.8);
 }
 
 /* Chatbot specific dark styles */
 .dark .prose-p,
 .dark .prose-pre,
 .dark .block-code {
-  color: #F1F1F1;
+  color: #FFFFFF;
 }
 
 .dark .prose-pre {

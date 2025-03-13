@@ -40,7 +40,7 @@ export default {
         darkmode: {
           bg: "#1A1F2C",
           card: "#222222",
-          text: "#F1F1F1",
+          text: "#FFFFFF", // Changed from #F1F1F1 to pure white for better contrast
           border: "rgba(255, 255, 255, 0.1)",
         },
       },
@@ -66,6 +66,13 @@ export default {
       animation: {
         "fade-up": "fade-up 0.5s ease-out",
         "fade-in": "fade-in 0.3s ease-out",
+      },
+      textColor: {
+        dark: {
+          primary: "#FFFFFF",
+          secondary: "#E0E0E0",
+          muted: "#B0B0B0",
+        },
       },
     },
   },

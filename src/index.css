@@ -33,11 +33,11 @@
 
 @layer components {
   .glass-card {
-    @apply backdrop-blur-lg bg-white/90 border border-white/20 shadow-lg dark:bg-darkmode-card/80 dark:border-darkmode-border;
+    @apply backdrop-blur-lg bg-white/90 border border-white/20 shadow-lg text-secondary dark:bg-darkmode-card/80 dark:border-darkmode-border dark:text-white;
   }
   
   .section-title {
-    @apply text-4xl font-bold mb-8 text-secondary dark:text-darkmode-text;
+    @apply text-4xl font-bold mb-8 text-secondary dark:text-white;
   }
   
   .container-padding {
@@ -46,9 +46,146 @@
 }
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary via-secondary/80 to-accent dark:from-darkmode-text dark:via-darkmode-text/80 dark:to-accent;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary via-secondary/80 to-accent dark:from-white dark:via-white/80 dark:to-accent;
 }
 
 .hover-scale {
   @apply transition-transform duration-300 hover:scale-105;
+}
+
+/* Add these new styles */
+img {
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+body.scrolling img {
+  filter: grayscale(0%);
+}
+
+/* Footer styles */
+footer {
+  width: 100%;
+  border-top-width: 4px;
+  border-top-style: solid;
+  border-top-color: #000000;
+}
+
+/* Social Media Card styles */
+.social-media-github {
+  background: linear-gradient(to bottom, #333333, #000000);
+}
+
+.social-media-linkedin {
+  background: linear-gradient(to bottom, #0077B5, #0A66C2);
+}
+
+.social-media-instagram {
+  background: linear-gradient(to right, #fd5949, #d6249f, #285AEB);
+}
+
+.social-media-gmail {
+  background: linear-gradient(to right, #EA4335, #FBBC05, #34A853, #4285F4);
+}
+
+/* Credly Badge Styles */
+.badge-container {
+  transform-origin: center;
+  will-change: transform;
+  z-index: 10;
+}
+
+.badge-container iframe {
+  width: 100% !important;
+  min-width: 150px;
+  max-width: 200px;
+  height: auto !important;
+  min-height: 270px;
+}
+
+/* Credentials scrolling container */
+.credentials-scroll-container {
+  -ms-overflow-style: none;  /* Internet Explorer and Edge */
+  scrollbar-width: none;  /* Firefox */
+  cursor: grab;
+  position: relative;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.credentials-scroll-container::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+.credentials-scroll-container:active {
+  cursor: grabbing;
+}
+
+.credentials-scroll-content {
+  padding-bottom: 10px; /* Prevent badges from being cut off */
+}
+
+/* Dark mode styles */
+.dark body {
+  background-color: #1A1F2C;
+  color: #FFFFFF;
+}
+
+.dark .glass-card {
+  background-color: rgba(34, 34, 34, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #FFFFFF;
+}
+
+.dark .popover-content {
+  background-color: #222222;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+/* Chatbot specific dark styles */
+.dark .prose-p,
+.dark .prose-pre,
+.dark .block-code {
+  color: #FFFFFF;
+}
+
+.dark .prose-pre {
+  background-color: #2A2A2A;
+}
+
+/* Text contrast fixes */
+.dark .text-secondary {
+  color: #FFFFFF;
+}
+
+.dark .text-secondary\/80 {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.dark .text-gray-700 {
+  color: #E0E0E0;
+}
+
+.dark .text-muted-foreground {
+  color: #D0D0D0;
+}
+
+.dark p, .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, .dark span {
+  color: #FFFFFF;
+}
+
+.text-secondary, .text-secondary\/80, .text-gray-700 {
+  @apply dark:text-white dark:text-opacity-90;
+}
+
+/* Scrollbar hide utility class */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
 }
