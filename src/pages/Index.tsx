@@ -3,7 +3,7 @@ import { Hero } from "@/components/Hero";
 import { Projects } from "@/components/Projects";
 import { ThreeAnimation } from "@/components/ThreeAnimation";
 import { ChatbotProject } from "@/components/ChatbotProject";
-import { Resume } from "@/components/Resume";
+import { ResumeSection } from "@/components/cv/ResumeSection";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Index = () => {
@@ -14,7 +14,7 @@ const Index = () => {
       </div>
       <ThreeAnimation />
       <Hero />
-      <Resume />
+      <ResumeSection />
       <Projects />
       <section className="container-padding" id="chatbots">
         <div className="max-w-3xl mx-auto">

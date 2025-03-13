@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 import { Message } from '@/types/chat';
 import { AdminModeAnimation } from './chatbot/AdminModeAnimation';
-import { PDFUploader } from './chatbot/PDFUploader';
 import { ChatMessages } from './chatbot/ChatMessages';
 import { ChatInput } from './chatbot/ChatInput';
 import { ChatHeader } from './chatbot/ChatHeader';
@@ -34,10 +33,6 @@ export const ChatbotProject = () => {
     minuteLimitExceeded: false,
     dayLimitExceeded: false
   });
-  
-  // New state for PDF handling
-  const [pdfFile, setPdfFile] = useState<File | null>(null);
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   const { theme } = useTheme();
   const { toast } = useToast();
@@ -86,26 +81,6 @@ export const ChatbotProject = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [theme]);
-
-  // Handle PDF file upload
-  const handlePdfUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      if (file.type === "application/pdf") {
-        setPdfFile(file);
-        // Create a URL for the file
-        const fileUrl = URL.createObjectURL(file);
-        setPdfUrl(fileUrl);
-        
-        // Clean up the URL when component unmounts or when a new PDF is uploaded
-        return () => {
-          URL.revokeObjectURL(fileUrl);
-        };
-      } else {
-        alert("Please upload a PDF file");
-      }
-    }
-  };
 
   const handleSendMessage = async () => {
     if (!message.trim() || isLoading) return;
@@ -260,11 +235,6 @@ export const ChatbotProject = () => {
         <div className="mb-4 text-xs text-gray-500 dark:text-gray-400">
           <p>Requests: {19 - rateLimitInfo.minuteRemaining}/19 per minute | {199 - rateLimitInfo.dayRemaining}/199 per day</p>
         </div>
-        
-        {/* PDF Upload Section - Only visible in admin mode */}
-        {isAdminMode && (
-          <PDFUploader onPdfUpload={handlePdfUpload} pdfUrl={pdfUrl} />
-        )}
         
         <ChatHeader 
           modelName={modelName}

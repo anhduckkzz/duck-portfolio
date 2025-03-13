@@ -6,12 +6,13 @@ import { Upload } from 'lucide-react';
 import { motion } from "framer-motion";
 import { PDFViewer } from './PDFViewer';
 
-interface PDFUploaderProps {
-  onPdfUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
+interface PDFViewerSectionProps {
+  pdfFile: File | null;
   pdfUrl: string | null;
+  onPdfUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const PDFUploader = ({ onPdfUpload, pdfUrl }: PDFUploaderProps) => {
+export const PDFViewerSection = ({ pdfFile, pdfUrl, onPdfUpload }: PDFViewerSectionProps) => {
   return (
     <motion.div 
       initial={{ opacity: 0, height: 0 }}

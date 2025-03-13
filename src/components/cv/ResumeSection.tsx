@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Phone, Mail, Github, Linkedin } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { PDFViewerSection } from "./PDFViewerSection";
 
-export const Resume = () => {
+export const ResumeSection = ({ isAdminMode = false }) => {
   const credentialsRef = useRef<HTMLDivElement>(null);
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   // Add useEffect to load the Credly script after component mounts
   useEffect(() => {
@@ -19,10 +22,39 @@ export const Resume = () => {
     };
   }, []);
 
+  // Handle PDF file upload
+  const handlePdfUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      if (file.type === "application/pdf") {
+        setPdfFile(file);
+        // Create a URL for the file
+        const fileUrl = URL.createObjectURL(file);
+        setPdfUrl(fileUrl);
+        
+        // Clean up the URL when component unmounts or when a new PDF is uploaded
+        return () => {
+          URL.revokeObjectURL(fileUrl);
+        };
+      } else {
+        alert("Please upload a PDF file");
+      }
+    }
+  };
+
   return (
     <section className="container-padding" id="resume">
       <div className="max-w-4xl mx-auto">
         <h2 className="section-title">Resume</h2>
+        
+        {/* PDF Upload Section - Only visible in admin mode */}
+        {isAdminMode && (
+          <PDFViewerSection 
+            pdfFile={pdfFile} 
+            pdfUrl={pdfUrl} 
+            onPdfUpload={handlePdfUpload} 
+          />
+        )}
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
