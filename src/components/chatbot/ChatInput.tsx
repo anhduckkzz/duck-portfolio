@@ -25,7 +25,7 @@ export const ChatInput = ({ message, setMessage, handleSendMessage, isLoading, i
       <Button 
         onClick={handleSendMessage} 
         disabled={isLoading}
-        className={isDarkMode ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'text-white'}
+        variant={isDarkMode ? "default" : "default"}
       >
         {isLoading ? "Sending..." : "Send"}
       </Button>

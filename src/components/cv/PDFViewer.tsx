@@ -12,7 +12,7 @@ export const PDFViewer = ({ pdfUrl }: PDFViewerProps) => {
     <div className="w-full mt-4 rounded overflow-hidden shadow-lg">
       <iframe 
         src={pdfUrl} 
-        className="w-full h-[600px] dark:border dark:border-darkmode-border" 
+        className="w-full h-[600px] dark:border dark:border-darkmode-border dark:bg-white" 
         title="CV PDF Viewer"
       />
     </div>
