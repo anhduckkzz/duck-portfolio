@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,6 +23,7 @@ export const ChatbotProject = () => {
   const [isColorMode, setIsColorMode] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   
   // Rate limiting state
   const [isRateLimited, setIsRateLimited] = useState(false);
@@ -82,8 +84,37 @@ export const ChatbotProject = () => {
     };
   }, [theme]);
 
+  const handleImageUpload = (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Invalid file type",
+        description: "Please upload an image file",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Create a URL for the image
+    const imageUrl = URL.createObjectURL(file);
+    setUploadedImage(imageUrl);
+
+    // Append image to the chat (you could alternatively just store it to attach to the next message)
+    const imageMessage: Message = { 
+      role: "user", 
+      content: `[Image uploaded: ${file.name}]`,
+      imageUrl: imageUrl
+    };
+    
+    setMessages(prev => [...prev, imageMessage]);
+
+    toast({
+      title: "Image uploaded",
+      description: "Your image has been added to the chat",
+    });
+  };
+
   const handleSendMessage = async () => {
-    if (!message.trim() || isLoading) return;
+    if ((!message.trim() && !uploadedImage) || isLoading) return;
 
     // Check rate limit before processing request
     const rateStatus = checkRateLimit();
@@ -123,13 +154,32 @@ export const ChatbotProject = () => {
     // Reset rate limited state if it was previously set
     setIsRateLimited(false);
 
-    const newUserMessage: Message = { role: "user", content: message };
+    let messageContent = message.trim();
+    
+    // If there's an image, add a reference to it
+    if (uploadedImage) {
+      if (messageContent) {
+        messageContent += " [with attached image]";
+      } else {
+        messageContent = "[Image sent]";
+      }
+    }
+
+    const newUserMessage: Message = { 
+      role: "user", 
+      content: messageContent,
+      imageUrl: uploadedImage 
+    };
+    
     const newMessages = [...messages, newUserMessage];
     setMessages(newMessages);
     setMessage("");
+    setUploadedImage(null); // Clear the uploaded image after sending
     setIsLoading(true);
 
     try {
+      // For real implementation, you would send the image to the API
+      // Here we'll simulate the API response for simplicity
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -138,7 +188,12 @@ export const ChatbotProject = () => {
         },
         body: JSON.stringify({
           model: modelName,
-          messages: addSystemContext(newMessages),
+          messages: addSystemContext(newMessages.map(msg => ({
+            role: msg.role === "bot" ? "assistant" : "user",
+            content: msg.content,
+            // Note: In a real implementation, you would need to handle images according to the API's requirements
+            // This might involve base64 encoding or uploading to a storage service first
+          }))),
           stream: true
         })
       });
@@ -258,6 +313,7 @@ export const ChatbotProject = () => {
             handleSendMessage={handleSendMessage}
             isLoading={isLoading}
             isDarkMode={isDarkMode}
+            onImageUpload={handleImageUpload}
           />
         </div>
       </Card>

@@ -38,6 +38,16 @@ export const ChatMessage = ({ message, isDarkMode, index }: ChatMessageProps) =>
           : isDarkMode ? 'bg-gray-700' : 'bg-white'
       } max-w-[80%] ${message.role === "user" ? "ml-auto" : "mr-auto"}`}
     >
+      {message.imageUrl && (
+        <div className="mb-2">
+          <img 
+            src={message.imageUrl} 
+            alt="Uploaded" 
+            className="max-w-full rounded-md max-h-48 object-contain"
+          />
+        </div>
+      )}
+      
       {message.role === "bot" ? (
         <div className="prose prose-sm max-w-none">
           <ReactMarkdown
