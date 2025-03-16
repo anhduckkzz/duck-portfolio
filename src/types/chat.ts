@@ -1,6 +1,6 @@
 
 export type Message = {
-  role: "user" | "bot";
+  role: "user" | "bot" | "assistant";
   content: string;
   imageUrl?: string;
 };

@@ -10,8 +10,9 @@ export const addSystemContext = (messages: Message[]) => {
     role: "system",
     content: "You can use markdown for formatting, including code blocks with syntax highlighting. For mathematical expressions, use LaTeX syntax between $$ symbols for display math or $ symbols for inline math. Example: $$x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$$"
   };
+  
   return [systemMessage, ...messages.map(msg => ({
-    role: msg.role === "bot" ? "assistant" : "user",
+    role: msg.role === "bot" ? "assistant" : msg.role,
     content: msg.content
   }))];
 };

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,7 +24,6 @@ export const ChatbotProject = () => {
   const [showAnimation, setShowAnimation] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   
-  // Rate limiting state
   const [isRateLimited, setIsRateLimited] = useState(false);
   const [rateLimitInfo, setRateLimitInfo] = useState({
     minuteRemaining: 19,
@@ -40,7 +38,6 @@ export const ChatbotProject = () => {
   const { toast } = useToast();
   
   useEffect(() => {
-    // Apply dark mode class to body when dark mode is toggled
     if (isDarkMode) {
       document.body.classList.add('dark-mode');
     } else {
@@ -53,11 +50,10 @@ export const ChatbotProject = () => {
         if (newCode.includes("anhduc522005")) {
           setIsAdminMode(true);
           setShowAnimation(true);
-          // Reset animation after 3 seconds
           setTimeout(() => setShowAnimation(false), 3000);
           return "";
         }
-        return newCode.slice(-11); // Keep only last 11 characters
+        return newCode.slice(-11);
       });
     };
 
@@ -67,7 +63,6 @@ export const ChatbotProject = () => {
       setIsColorMode(true);
       document.body.classList.add('scrolling');
       
-      // Reset color mode after 1 second of no scrolling
       const timeout = setTimeout(() => {
         setIsColorMode(false);
         document.body.classList.remove('scrolling');
@@ -94,11 +89,9 @@ export const ChatbotProject = () => {
       return;
     }
 
-    // Create a URL for the image
     const imageUrl = URL.createObjectURL(file);
     setUploadedImage(imageUrl);
 
-    // Append image to the chat (you could alternatively just store it to attach to the next message)
     const imageMessage: Message = { 
       role: "user", 
       content: `[Image uploaded: ${file.name}]`,
@@ -116,10 +109,8 @@ export const ChatbotProject = () => {
   const handleSendMessage = async () => {
     if ((!message.trim() && !uploadedImage) || isLoading) return;
 
-    // Check rate limit before processing request
     const rateStatus = checkRateLimit();
     
-    // Update rate limit info state
     setRateLimitInfo({
       minuteRemaining: rateStatus.minuteRemaining,
       dayRemaining: rateStatus.dayRemaining,
@@ -129,11 +120,9 @@ export const ChatbotProject = () => {
       dayLimitExceeded: rateStatus.dayLimitExceeded
     });
     
-    // If rate limited, show toast and return
     if (!rateStatus.allowed) {
       setIsRateLimited(true);
       
-      // Show different messages based on which limit was exceeded
       if (rateStatus.minuteLimitExceeded) {
         toast({
           title: "Rate Limit Exceeded",
@@ -151,12 +140,10 @@ export const ChatbotProject = () => {
       return;
     }
     
-    // Reset rate limited state if it was previously set
     setIsRateLimited(false);
 
     let messageContent = message.trim();
     
-    // If there's an image, add a reference to it
     if (uploadedImage) {
       if (messageContent) {
         messageContent += " [with attached image]";
@@ -174,12 +161,10 @@ export const ChatbotProject = () => {
     const newMessages = [...messages, newUserMessage];
     setMessages(newMessages);
     setMessage("");
-    setUploadedImage(null); // Clear the uploaded image after sending
+    setUploadedImage(null);
     setIsLoading(true);
 
     try {
-      // For real implementation, you would send the image to the API
-      // Here we'll simulate the API response for simplicity
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -188,12 +173,7 @@ export const ChatbotProject = () => {
         },
         body: JSON.stringify({
           model: modelName,
-          messages: addSystemContext(newMessages.map(msg => ({
-            role: msg.role === "bot" ? "assistant" : "user",
-            content: msg.content,
-            // Note: In a real implementation, you would need to handle images according to the API's requirements
-            // This might involve base64 encoding or uploading to a storage service first
-          }))),
+          messages: addSystemContext(newMessages),
           stream: true
         })
       });
@@ -248,7 +228,6 @@ export const ChatbotProject = () => {
     }
   };
 
-  // Toggle dark mode
   const toggleDarkMode = () => {
     setIsDarkMode(prev => !prev);
   };
@@ -271,7 +250,6 @@ export const ChatbotProject = () => {
       )}
       
       <Card className="glass-card p-6 relative">
-        {/* Rate limit info display */}
         {isRateLimited && (
           <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 rounded-md text-red-600 dark:text-red-300 text-sm">
             <p className="font-medium">Rate limit exceeded</p>
@@ -286,7 +264,6 @@ export const ChatbotProject = () => {
           </div>
         )}
         
-        {/* Rate limit counter display (always visible) */}
         <div className="mb-4 text-xs text-gray-500 dark:text-gray-400">
           <p>Requests: {19 - rateLimitInfo.minuteRemaining}/19 per minute | {199 - rateLimitInfo.dayRemaining}/199 per day</p>
         </div>
