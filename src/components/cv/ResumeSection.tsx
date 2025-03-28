@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Phone, Mail, Github, Linkedin, ChevronLeft, ChevronRight } from "lucide-react";
@@ -11,7 +12,7 @@ export const ResumeSection = ({ isAdminMode = false }) => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [showLeftScroll, setShowLeftScroll] = useState(false);
   const [showRightScroll, setShowRightScroll] = useState(true);
 
@@ -47,7 +48,7 @@ export const ResumeSection = ({ isAdminMode = false }) => {
     
     setIsDragging(true);
     setStartX(e.pageX - credentialsRef.current.offsetLeft);
-    setScrollLeft(credentialsRef.current.scrollLeft);
+    setScrollPosition(credentialsRef.current.scrollLeft);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -55,7 +56,7 @@ export const ResumeSection = ({ isAdminMode = false }) => {
     
     const x = e.pageX - credentialsRef.current.offsetLeft;
     const walk = (x - startX) * 2;
-    credentialsRef.current.scrollLeft = scrollLeft - walk;
+    credentialsRef.current.scrollLeft = scrollPosition - walk;
   };
 
   const handleMouseUp = () => {
@@ -85,12 +86,12 @@ export const ResumeSection = ({ isAdminMode = false }) => {
     };
   }, []);
 
-  const scrollLeft = () => {
+  const scrollToLeft = () => {
     if (!credentialsRef.current) return;
     credentialsRef.current.scrollBy({ left: -200, behavior: 'smooth' });
   };
   
-  const scrollRight = () => {
+  const scrollToRight = () => {
     if (!credentialsRef.current) return;
     credentialsRef.current.scrollBy({ left: 200, behavior: 'smooth' });
   };
@@ -233,7 +234,7 @@ export const ResumeSection = ({ isAdminMode = false }) => {
             <div className="relative">
               {showLeftScroll && (
                 <button 
-                  onClick={scrollLeft}
+                  onClick={scrollToLeft}
                   className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-gray-200 dark:bg-gray-700 p-1 rounded-full opacity-70 hover:opacity-100 shadow-md"
                   aria-label="Scroll left"
                 >
@@ -243,7 +244,7 @@ export const ResumeSection = ({ isAdminMode = false }) => {
               
               {showRightScroll && (
                 <button 
-                  onClick={scrollRight}
+                  onClick={scrollToRight}
                   className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-gray-200 dark:bg-gray-700 p-1 rounded-full opacity-70 hover:opacity-100 shadow-md"
                   aria-label="Scroll right"
                 >
