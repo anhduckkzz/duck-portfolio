@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Phone, Mail, Github, Linkedin } from "lucide-react";
@@ -9,6 +10,9 @@ export const ResumeSection = ({ isAdminMode = false }) => {
   const credentialsRef = useRef<HTMLDivElement>(null);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   // Add useEffect to load the Credly script after component mounts
   useEffect(() => {
@@ -40,6 +44,27 @@ export const ResumeSection = ({ isAdminMode = false }) => {
         alert("Please upload a PDF file");
       }
     }
+  };
+
+  // Handle mouse events for horizontal scrolling
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!credentialsRef.current) return;
+    
+    setIsDragging(true);
+    setStartX(e.pageX - credentialsRef.current.offsetLeft);
+    setScrollLeft(credentialsRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !credentialsRef.current) return;
+    
+    const x = e.pageX - credentialsRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll speed
+    credentialsRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
   };
 
   return (
@@ -188,6 +213,11 @@ export const ResumeSection = ({ isAdminMode = false }) => {
             <div 
               ref={credentialsRef}
               className="credentials-scroll-container overflow-x-scroll scrollbar-hide py-4 my-6"
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onMouseMove={handleMouseMove}
+              style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
             >
               <div className="credentials-scroll-content inline-flex gap-6 min-w-max px-4">
                 <div 

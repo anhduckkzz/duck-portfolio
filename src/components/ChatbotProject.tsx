@@ -22,7 +22,6 @@ export const ChatbotProject = () => {
   const [isColorMode, setIsColorMode] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   
   const [isRateLimited, setIsRateLimited] = useState(false);
   const [rateLimitInfo, setRateLimitInfo] = useState({
@@ -79,35 +78,8 @@ export const ChatbotProject = () => {
     };
   }, [theme]);
 
-  const handleImageUpload = (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      toast({
-        title: "Invalid file type",
-        description: "Please upload an image file",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    const imageUrl = URL.createObjectURL(file);
-    setUploadedImage(imageUrl);
-
-    const imageMessage: Message = { 
-      role: "user", 
-      content: `[Image uploaded: ${file.name}]`,
-      imageUrl: imageUrl
-    };
-    
-    setMessages(prev => [...prev, imageMessage]);
-
-    toast({
-      title: "Image uploaded",
-      description: "Your image has been added to the chat",
-    });
-  };
-
   const handleSendMessage = async () => {
-    if ((!message.trim() && !uploadedImage) || isLoading) return;
+    if (!message.trim() || isLoading) return;
 
     const rateStatus = checkRateLimit();
     
@@ -142,26 +114,14 @@ export const ChatbotProject = () => {
     
     setIsRateLimited(false);
 
-    let messageContent = message.trim();
-    
-    if (uploadedImage) {
-      if (messageContent) {
-        messageContent += " [with attached image]";
-      } else {
-        messageContent = "[Image sent]";
-      }
-    }
-
     const newUserMessage: Message = { 
       role: "user", 
-      content: messageContent,
-      imageUrl: uploadedImage 
+      content: message.trim()
     };
     
     const newMessages = [...messages, newUserMessage];
     setMessages(newMessages);
     setMessage("");
-    setUploadedImage(null);
     setIsLoading(true);
 
     try {
@@ -290,7 +250,6 @@ export const ChatbotProject = () => {
             handleSendMessage={handleSendMessage}
             isLoading={isLoading}
             isDarkMode={isDarkMode}
-            onImageUpload={handleImageUpload}
           />
         </div>
       </Card>
