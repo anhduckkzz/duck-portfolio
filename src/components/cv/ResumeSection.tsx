@@ -1,7 +1,6 @@
-
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Download, Phone, Mail, Github, Linkedin } from "lucide-react";
+import { Download, Phone, Mail, Github, Linkedin, ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PDFViewerSection } from "./PDFViewerSection";
@@ -13,8 +12,9 @@ export const ResumeSection = ({ isAdminMode = false }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [showLeftScroll, setShowLeftScroll] = useState(false);
+  const [showRightScroll, setShowRightScroll] = useState(true);
 
-  // Add useEffect to load the Credly script after component mounts
   useEffect(() => {
     const script = document.createElement('script');
     script.src = "//cdn.credly.com/assets/utilities/embed.js";
@@ -26,17 +26,13 @@ export const ResumeSection = ({ isAdminMode = false }) => {
     };
   }, []);
 
-  // Handle PDF file upload
   const handlePdfUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.type === "application/pdf") {
         setPdfFile(file);
-        // Create a URL for the file
         const fileUrl = URL.createObjectURL(file);
         setPdfUrl(fileUrl);
-        
-        // Clean up the URL when component unmounts or when a new PDF is uploaded
         return () => {
           URL.revokeObjectURL(fileUrl);
         };
@@ -46,7 +42,6 @@ export const ResumeSection = ({ isAdminMode = false }) => {
     }
   };
 
-  // Handle mouse events for horizontal scrolling
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!credentialsRef.current) return;
     
@@ -59,7 +54,7 @@ export const ResumeSection = ({ isAdminMode = false }) => {
     if (!isDragging || !credentialsRef.current) return;
     
     const x = e.pageX - credentialsRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Scroll speed
+    const walk = (x - startX) * 2;
     credentialsRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -67,12 +62,44 @@ export const ResumeSection = ({ isAdminMode = false }) => {
     setIsDragging(false);
   };
 
+  const checkScrollPosition = () => {
+    if (!credentialsRef.current) return;
+    
+    const { scrollLeft, scrollWidth, clientWidth } = credentialsRef.current;
+    
+    setShowLeftScroll(scrollLeft > 10);
+    setShowRightScroll(scrollLeft < scrollWidth - clientWidth - 10);
+  };
+
+  useEffect(() => {
+    const scrollContainer = credentialsRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', checkScrollPosition);
+      checkScrollPosition();
+    }
+    
+    return () => {
+      if (scrollContainer) {
+        scrollContainer.removeEventListener('scroll', checkScrollPosition);
+      }
+    };
+  }, []);
+
+  const scrollLeft = () => {
+    if (!credentialsRef.current) return;
+    credentialsRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+  };
+  
+  const scrollRight = () => {
+    if (!credentialsRef.current) return;
+    credentialsRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+  };
+
   return (
     <section className="container-padding" id="resume">
       <div className="max-w-4xl mx-auto">
         <h2 className="section-title">Resume</h2>
         
-        {/* PDF Upload Section - Only visible in admin mode */}
         {isAdminMode && (
           <PDFViewerSection 
             pdfFile={pdfFile} 
@@ -87,7 +114,6 @@ export const ResumeSection = ({ isAdminMode = false }) => {
           transition={{ duration: 0.5 }}
           className="glass-card p-8 mb-8 text-left"
         >
-          {/* Header with contact info */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b pb-4">
             <div>
               <h3 className="text-3xl font-bold">Tran Anh Duc</h3>
@@ -115,7 +141,6 @@ export const ResumeSection = ({ isAdminMode = false }) => {
             </div>
           </div>
           
-          {/* Education Section */}
           <div className="mb-6">
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Education</h4>
             <div className="ml-2">
@@ -129,7 +154,6 @@ export const ResumeSection = ({ isAdminMode = false }) => {
             </div>
           </div>
           
-          {/* Personal Projects */}
           <div className="mb-6">
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Personal Projects</h4>
             <div className="ml-2">
@@ -143,7 +167,6 @@ export const ResumeSection = ({ isAdminMode = false }) => {
             </div>
           </div>
           
-          {/* Experience */}
           <div className="mb-6">
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Experience</h4>
             <div className="ml-2 space-y-4">
@@ -173,7 +196,6 @@ export const ResumeSection = ({ isAdminMode = false }) => {
             </div>
           </div>
           
-          {/* Technical Skills */}
           <div className="mb-6">
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Technical Skills and Interests</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ml-2">
@@ -195,7 +217,6 @@ export const ResumeSection = ({ isAdminMode = false }) => {
             </div>
           </div>
           
-          {/* Publications */}
           <div className="mb-6">
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Publications</h4>
             <div className="ml-2">
@@ -207,55 +228,80 @@ export const ResumeSection = ({ isAdminMode = false }) => {
             </div>
           </div>
           
-          {/* Credentials Section */}
           <div className="mb-6">
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Credentials</h4>
-            <div 
-              ref={credentialsRef}
-              className="credentials-scroll-container overflow-x-scroll scrollbar-hide py-4 my-6"
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-              onMouseMove={handleMouseMove}
-              style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-            >
-              <div className="credentials-scroll-content inline-flex gap-6 min-w-max px-4">
-                <div 
-                  className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
-                  data-iframe-width="150" 
-                  data-iframe-height="270" 
-                  data-share-badge-id="1ce4b007-91f1-4e6f-9ac2-26b95a67c89b" 
-                  data-share-badge-host="https://www.credly.com"
-                ></div>
-                <div 
-                  className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
-                  data-iframe-width="150" 
-                  data-iframe-height="270" 
-                  data-share-badge-id="2d84b8bf-223e-482a-9549-9f470c68efdf" 
-                  data-share-badge-host="https://www.credly.com"
-                ></div>
-                <div 
-                  className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
-                  data-iframe-width="150" 
-                  data-iframe-height="270" 
-                  data-share-badge-id="077bded0-bac6-4e37-87af-a7a0583e0af3" 
-                  data-share-badge-host="https://www.credly.com"
-                ></div>
-                <div 
-                  className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
-                  data-iframe-width="150" 
-                  data-iframe-height="270" 
-                  data-share-badge-id="86e35940-3f03-4b8e-8f54-90dcdbe67eb0" 
-                  data-share-badge-host="https://www.credly.com"
-                ></div>
-                <div 
-                  className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
-                  data-iframe-width="150" 
-                  data-iframe-height="270" 
-                  data-share-badge-id="90ca16d2-494f-4730-8207-7f8560f4b8e5" 
-                  data-share-badge-host="https://www.credly.com"
-                ></div>
+            <div className="relative">
+              {showLeftScroll && (
+                <button 
+                  onClick={scrollLeft}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-gray-200 dark:bg-gray-700 p-1 rounded-full opacity-70 hover:opacity-100 shadow-md"
+                  aria-label="Scroll left"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+              )}
+              
+              {showRightScroll && (
+                <button 
+                  onClick={scrollRight}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-gray-200 dark:bg-gray-700 p-1 rounded-full opacity-70 hover:opacity-100 shadow-md"
+                  aria-label="Scroll right"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              )}
+              
+              <div 
+                ref={credentialsRef}
+                className="credentials-scroll-container overflow-x-scroll scrollbar-hide py-4 my-6 px-6"
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                onMouseMove={handleMouseMove}
+                style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+              >
+                <div className="credentials-scroll-content inline-flex gap-6 min-w-max px-4">
+                  <div 
+                    className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                    data-iframe-width="150" 
+                    data-iframe-height="270" 
+                    data-share-badge-id="1ce4b007-91f1-4e6f-9ac2-26b95a67c89b" 
+                    data-share-badge-host="https://www.credly.com"
+                  ></div>
+                  <div 
+                    className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                    data-iframe-width="150" 
+                    data-iframe-height="270" 
+                    data-share-badge-id="2d84b8bf-223e-482a-9549-9f470c68efdf" 
+                    data-share-badge-host="https://www.credly.com"
+                  ></div>
+                  <div 
+                    className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                    data-iframe-width="150" 
+                    data-iframe-height="270" 
+                    data-share-badge-id="077bded0-bac6-4e37-87af-a7a0583e0af3" 
+                    data-share-badge-host="https://www.credly.com"
+                  ></div>
+                  <div 
+                    className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                    data-iframe-width="150" 
+                    data-iframe-height="270" 
+                    data-share-badge-id="86e35940-3f03-4b8e-8f54-90dcdbe67eb0" 
+                    data-share-badge-host="https://www.credly.com"
+                  ></div>
+                  <div 
+                    className="badge-container min-w-[150px] transform-gpu scale-100 hover:scale-105 transition-transform duration-300 p-2 bg-white/5 rounded-lg shadow-md"
+                    data-iframe-width="150" 
+                    data-iframe-height="270" 
+                    data-share-badge-id="90ca16d2-494f-4730-8207-7f8560f4b8e5" 
+                    data-share-badge-host="https://www.credly.com"
+                  ></div>
+                </div>
               </div>
+              
+              <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-2 italic">
+                Click and drag to scroll →
+              </p>
             </div>
           </div>
           
