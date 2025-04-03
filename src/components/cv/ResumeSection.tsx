@@ -1,7 +1,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Download, Phone, Mail, Github, Linkedin, ChevronLeft, ChevronRight } from "lucide-react";
+import { Download, Phone, Mail, Github, Linkedin, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PDFViewerSection } from "./PDFViewerSection";
@@ -115,120 +115,145 @@ export const ResumeSection = ({ isAdminMode = false }) => {
           transition={{ duration: 0.5 }}
           className="glass-card p-8 mb-8 text-left"
         >
+          {/* Header/Contact Information */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b pb-4">
             <div>
-              <h3 className="text-3xl font-bold">Tran Anh Duc</h3>
-              <p className="text-gray-700">Role: Undergraduate Student</p>
-              <p className="text-gray-700">Bachelor of Technology</p>
-              <p className="text-gray-700">Ho Chi Minh University of Technology - VNU HCM</p>
+              <h3 className="text-3xl font-bold">TRAN ANH DUC</h3>
             </div>
             <div className="mt-4 md:mt-0 flex flex-col space-y-2">
               <div className="flex items-center">
                 <Phone size={16} className="mr-2" />
-                <span>+84-815420855</span>
+                <span>+84815420855</span>
+              </div>
+              <div className="flex items-center">
+                <MapPin size={16} className="mr-2" />
+                <span>Ho Chi Minh City, Viet Nam</span>
               </div>
               <div className="flex items-center">
                 <Mail size={16} className="mr-2" />
-                <span>trananhduc522005@gmail.com</span>
+                <a href="mailto:duc.trananh0502@hcmut.edu.vn" className="text-blue-500 hover:underline">
+                  duc.trananh0502@hcmut.edu.vn
+                </a>
               </div>
-              <div className="flex items-center">
-                <Github size={16} className="mr-2" />
-                <span>GitHub Profile</span>
-              </div>
-              <div className="flex items-center">
-                <Linkedin size={16} className="mr-2" />
-                <span>LinkedIn Profile</span>
+              <div className="flex items-center gap-4">
+                <a href="https://linkedin.com/in/trananh-duc" className="flex items-center text-blue-500 hover:underline">
+                  <Linkedin size={16} className="mr-1" />
+                  <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com/trananh-duc" className="flex items-center text-blue-500 hover:underline">
+                  <Github size={16} className="mr-1" />
+                  <span>Github</span>
+                </a>
               </div>
             </div>
           </div>
           
+          {/* Objective Section */}
+          <div className="mb-6">
+            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Objective</h4>
+            <p className="text-gray-700 ml-2">
+              Passionate second-year Computer Science major with a strong foundation in AI, machine learning, and
+              Computer Vision. I actively research AI applications in various domains such as agriculture, medicine,
+              and the environment while exploring advancements from software to architecture. Eager to apply my
+              skills in AI/ML, software development, and research through hands-on projects and industry collaboration.
+            </p>
+          </div>
+          
+          {/* Education Section */}
           <div className="mb-6">
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Education</h4>
             <div className="ml-2">
               <div className="flex flex-col md:flex-row justify-between">
                 <div>
-                  <h5 className="text-lg font-semibold">• Bachelor of Computer Science (Artificial Intelligence)</h5>
-                  <p className="text-gray-700">Ho Chi Minh University of Technology - VNU HCM</p>
+                  <h5 className="text-lg font-semibold">Bachelor of Computer Science</h5>
+                  <p className="text-gray-700">Ho Chi Minh City University of Technology - VNU HCM (Expected 2027)</p>
+                  <p className="text-gray-700">Major: Computer Science &nbsp;&nbsp; Minor: Artificial Intelligence</p>
                 </div>
-                <p className="text-gray-700">2023-current</p>
               </div>
             </div>
           </div>
           
+          {/* Skills Section */}
           <div className="mb-6">
-            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Personal Projects</h4>
-            <div className="ml-2">
-              <h5 className="text-lg font-semibold">• Trash-Density Detection with Image Intensity Normalization Algorithms</h5>
-              <p className="text-gray-700 italic mb-2">A project utilizing to fine-tune the YOLOv8 nano version for classifying trash density across three different levels.</p>
-              <ul className="list-none ml-4 text-gray-700">
-                <li>– Use YOLOv8 to segment waste and create coverage areas (masks)</li>
-                <li>– Use the pixel intensity algorithm on the masks to calculate the level of waste</li>
-                <li>– Technology Used: Python, YOLO, Roboflow</li>
-              </ul>
+            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Skills</h4>
+            <div className="ml-2 space-y-2">
+              <div>
+                <p><span className="font-semibold">Programming Languages:</span> C++, Python, LaTeX, Markdown</p>
+              </div>
+              <div>
+                <p><span className="font-semibold">Libraries and Frameworks:</span> C++ xtensor, Python Data Visualization (pandas, numpy, matplotlib, scikit-learn, YOLO)</p>
+              </div>
+              <div>
+                <p><span className="font-semibold">Tools:</span> CVAT, Roboflow, basic Docker</p>
+              </div>
+              <div>
+                <p><span className="font-semibold">Research Skills:</span> Hands-on Experimental Research, Academic Paper Writing, Literature Review</p>
+              </div>
+              <div>
+                <p><span className="font-semibold">Version Control:</span> Git, GitHub</p>
+              </div>
+              <div>
+                <p><span className="font-semibold">MLOps:</span> Actively Learning</p>
+              </div>
+              <div>
+                <p><span className="font-semibold">IELTS:</span> Academic 7.0 Overall</p>
+              </div>
             </div>
           </div>
           
+          {/* Projects Section */}
           <div className="mb-6">
-            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Experience</h4>
-            <div className="ml-2 space-y-4">
+            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Projects</h4>
+            <div className="ml-2 space-y-6">
               <div>
-                <div className="flex flex-col md:flex-row justify-between">
-                  <h5 className="text-lg font-semibold">• Technical Reviewer</h5>
-                  <span className="text-gray-700">Remote</span>
-                </div>
-                <p className="text-gray-700">Robusto AI</p>
-                <ul className="list-none ml-4 text-gray-700">
-                  <li>– Support Project Manager in creating and developing Latex template for lesson, course and homework for capy-data.io</li>
-                  <li>– Take charge of developing online notebook for lab practice in Computer Vision course such as Object Detection and Object Tracking Algorithm</li>
+                <h5 className="text-lg font-semibold">Towards an IoT-Based Intelligent Waste Classification System Using YOLOv8 and Pixel Intensity Normalization Algorithm</h5>
+                <p className="text-gray-700">Vietnam National University Ho Chi Minh University of Technology</p>
+                <p className="text-gray-700"><strong>Role:</strong> Mentor - 2024-2025 Science and Engineering Fair for High School Students</p>
+                <ul className="list-disc ml-6 text-gray-700">
+                  <li>Mentored and supported a high school team in developing a friendly trash density system using instance segmentation.</li>
+                  <li>Reviewed paperwork and guided teams in writing and researching.</li>
                 </ul>
               </div>
               
               <div>
-                <div className="flex flex-col md:flex-row justify-between">
-                  <h5 className="text-lg font-semibold">• Research Assistant</h5>
-                  <span className="text-gray-700">Hybrid</span>
-                </div>
-                <p className="text-gray-700">Ho Chi Minh University of Technology - VNU HCM</p>
-                <ul className="list-none ml-4 text-gray-700">
-                  <li>– Learned about various Machine Learning and Deep Learning method for developing problem in Computer Vision</li>
-                  <li>– Learned basics of writing academic report for conference and meeting</li>
+                <h5 className="text-lg font-semibold">Real-Time Traffic Monitoring System Featuring IntDetX and Consistent Weighted Dual Label Assignment</h5>
+                <p className="text-gray-700"><strong>Advisor:</strong> Assoc. Prof. Tran Minh Quang</p>
+                <p className="text-gray-700">Vietnam National University Ho Chi Minh University of Technology</p>
+                <ul className="list-disc ml-6 text-gray-700">
+                  <li>Developed IntDetX, an architecture combining YOLOv8's speed and EfficientDet-B7's accuracy for traffic detection.</li>
+                  <li>Improved the Level of Service (LOS) framework for real-time traffic analysis with more precise criteria.</li>
                 </ul>
               </div>
             </div>
           </div>
           
+          {/* Experience Section */}
           <div className="mb-6">
-            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Technical Skills and Interests</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ml-2">
+            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Experience</h4>
+            <div className="ml-2 space-y-6">
               <div>
-                <p><span className="font-semibold">Languages:</span> C/C++, Python, Markdown</p>
+                <h5 className="text-lg font-semibold">Research Assistant - Vietnam National University Ho Chi Minh University of Technology</h5>
+                <p className="text-gray-700">(Feb 2024 - Present)</p>
+                <p className="text-gray-700"><strong>Advisor:</strong> M.Sc. Le Nhat Tan</p>
+                <p className="text-gray-700">Geometrical, Graphical, and Transformer-based Approaches for Recognizing Naturalistic Depression in Facial Behavior</p>
+                <ul className="list-disc ml-6 text-gray-700">
+                  <li>Developed and implemented a Deep Learning model to analyze and predict depression on the FaceSpy dataset.</li>
+                  <li>Addressed complex scheduling tasks, optimizing resource allocation.</li>
+                  <li>Demonstrated the effectiveness of genetic algorithm-based scheduling in industrial applications.</li>
+                </ul>
               </div>
+              
               <div>
-                <p><span className="font-semibold">Libraries and frameworks:</span> C++ xtensor, Python Data Visualization Libraries like pandas, numpy, matplotlib, scikit-learn, Pytorch</p>
-              </div>
-              <div>
-                <p><span className="font-semibold">Version Control:</span> Git, Github</p>
-              </div>
-              <div>
-                <p><span className="font-semibold">Areas of Interest:</span> AI training and deployment, Data Visualization, Feature Extraction, Cloud Basic on GCP</p>
-              </div>
-              <div>
-                <p><span className="font-semibold">Soft Skills:</span> Problem Solving, Critical Thinking, Presentation, Adaptability</p>
+                <h5 className="text-lg font-semibold">Technical Reviewer - ROBUSTO AI (May 2024 - Dec 2024)</h5>
+                <ul className="list-disc ml-6 text-gray-700">
+                  <li>Assisted in developing LaTeX templates for lessons, courses, and homework for <a href="https://fullstackdata-science.com" className="text-blue-500 hover:underline">fullstackdata-science.com</a>.</li>
+                  <li>Developed online notebooks for lab practice in Computer Vision, including Object Detection and Object Tracking Algorithm.</li>
+                </ul>
               </div>
             </div>
           </div>
           
-          <div className="mb-6">
-            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Publications</h4>
-            <div className="ml-2">
-              <h5 className="text-lg font-semibold">• Real-Time Traffic Monitoring System Featuring IntDetX and Consistent Weighted Dual Label Assignment</h5>
-              <ul className="list-none ml-4 text-gray-700">
-                <li>– Develop an architecture combine between speed of YOLOv8 and accuracy of EfficientDet-B7 called IntDetX to maximimize the ability in detect traffic</li>
-                <li>– Improve the Level of Service (LOS) framework to offer a more comprehensive and precise set of criteria for real-time traffic analysis.</li>
-              </ul>
-            </div>
-          </div>
-          
+          {/* Credentials Section */}
           <div className="mb-6">
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Credentials</h4>
             <div className="relative">
