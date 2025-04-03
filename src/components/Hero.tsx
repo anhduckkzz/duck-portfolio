@@ -137,7 +137,7 @@ const SocialMediaCard = ({
         className="hidden peer" 
         onChange={(e) => {
           if(e.target.checked) {
-            window.open(url, "_blank");
+            window.open(url, "_blank", "noopener,noreferrer");
             // Uncheck after a delay to reset the animation
             setTimeout(() => {
               e.target.checked = false;

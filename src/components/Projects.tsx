@@ -143,7 +143,7 @@ export const Projects = () => {
                       variant="outline"
                       size="sm"
                       className="flex items-center gap-1.5"
-                      onClick={() => window.open(project.githubUrl, "_blank")}
+                      onClick={() => window.open(project.githubUrl, "_blank", "noopener,noreferrer")}
                     >
                       <Github className="h-4 w-4" />
                       GitHub Repository
@@ -152,7 +152,7 @@ export const Projects = () => {
                       variant="outline"
                       size="sm"
                       className="flex items-center gap-1.5"
-                      onClick={() => window.open(project.demoUrl, "_blank")}
+                      onClick={() => window.open(project.demoUrl, "_blank", "noopener,noreferrer")}
                     >
                       <PlayCircle className="h-4 w-4" />
                       Live Demo

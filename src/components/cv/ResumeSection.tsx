@@ -135,16 +135,16 @@ export const ResumeSection = ({ isAdminMode = false }) => {
               </div>
               <div className="flex items-center">
                 <Mail size={16} className="mr-2" />
-                <a href="mailto:duc.trananh0502@hcmut.edu.vn" className="text-blue-500 hover:underline">
+                <a href="mailto:duc.trananh0502@hcmut.edu.vn" className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
                   duc.trananh0502@hcmut.edu.vn
                 </a>
               </div>
               <div className="flex items-center gap-4">
-                <a href="https://linkedin.com/in/trananh-duc" className="flex items-center text-blue-500 hover:underline">
+                <a href="https://linkedin.com/in/trananh-duc" className="flex items-center text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
                   <Linkedin size={16} className="mr-1" />
                   <span>LinkedIn</span>
                 </a>
-                <a href="https://github.com/trananh-duc" className="flex items-center text-blue-500 hover:underline">
+                <a href="https://github.com/trananh-duc" className="flex items-center text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
                   <Github size={16} className="mr-1" />
                   <span>Github</span>
                 </a>
@@ -250,7 +250,7 @@ export const ResumeSection = ({ isAdminMode = false }) => {
               <div>
                 <h5 className="text-lg font-semibold">Technical Reviewer - ROBUSTO AI (May 2024 - Dec 2024)</h5>
                 <ul className="list-disc ml-6 text-gray-700">
-                  <li>Assisted in developing LaTeX templates for lessons, courses, and homework for <a href="https://fullstackdata-science.com" className="text-blue-500 hover:underline">fullstackdata-science.com</a>.</li>
+                  <li>Assisted in developing LaTeX templates for lessons, courses, and homework for <a href="https://fullstackdata-science.com" className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">fullstackdata-science.com</a>.</li>
                   <li>Developed online notebooks for lab practice in Computer Vision, including Object Detection and Object Tracking Algorithm.</li>
                 </ul>
               </div>
