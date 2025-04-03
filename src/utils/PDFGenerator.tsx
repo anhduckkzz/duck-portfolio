@@ -1,9 +1,9 @@
-
 import { jsPDF } from "jspdf";
 import "jspdf/dist/polyfills.es.js";
 
+// This function will be used to generate a dynamic PDF if needed
 export const generateResumePDF = () => {
-  // Create a new PDF document
+  // Keep the existing code for generating a PDF
   const doc = new jsPDF({
     orientation: "portrait",
     unit: "mm",
@@ -178,4 +178,20 @@ export const generateResumePDF = () => {
   
   // Save the document
   return doc;
+};
+
+// New function to download a real PDF file
+export const downloadRealCV = () => {
+  // The path to your real PDF file in the public directory
+  const pdfFilePath = '/TranAnhDuc_CV.pdf';
+  
+  // Create a link element
+  const link = document.createElement('a');
+  link.href = pdfFilePath;
+  link.download = 'TranAnhDuc_CV.pdf';
+  
+  // Append to the document, click it, and remove it
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 };

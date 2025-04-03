@@ -1,9 +1,10 @@
+
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Phone, Mail, Github, Linkedin, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { PDFViewerSection } from "./PDFViewerSection";
-import { generateResumePDF } from "@/utils/PDFGenerator";
+import { downloadRealCV } from "@/utils/PDFGenerator";
 
 export const ResumeSection = ({ isAdminMode = false }) => {
   const credentialsRef = useRef<HTMLDivElement>(null);
@@ -96,8 +97,7 @@ export const ResumeSection = ({ isAdminMode = false }) => {
   };
 
   const handleDownloadCV = () => {
-    const doc = generateResumePDF();
-    doc.save("TranAnhDuc_CV.pdf");
+    downloadRealCV();
   };
 
   return (
