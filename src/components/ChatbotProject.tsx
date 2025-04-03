@@ -7,16 +7,13 @@ import { ChatMessages } from './chatbot/ChatMessages';
 import { ChatInput } from './chatbot/ChatInput';
 import { ChatHeader } from './chatbot/ChatHeader';
 import { RateLimitDisplay } from './chatbot/RateLimitInfo';
-import { useTheme } from "./ThemeProvider";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useChatState } from "@/hooks/use-chat-state";
 import { useSecretCode } from "@/hooks/use-secret-code";
 
 export const ChatbotProject = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isAdminMode, setIsAdminMode] = useState(false);
   
-  const { theme } = useTheme();
   const isMobile = useIsMobile();
   
   const {
@@ -34,10 +31,6 @@ export const ChatbotProject = () => {
   } = useChatState();
   
   const { showAnimation } = useSecretCode("anhduc522005", () => setIsAdminMode(true));
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(prev => !prev);
-  };
 
   return (
     <div className="transition-colors duration-300">
@@ -68,8 +61,8 @@ export const ChatbotProject = () => {
           apiKey={apiKey}
           setApiKey={setApiKey}
           setModelName={setModelName}
-          isDarkMode={isDarkMode}
-          toggleDarkMode={toggleDarkMode}
+          isDarkMode={false}
+          toggleDarkMode={() => {}}
         />
 
         <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-semibold mb-2 dark:text-darkmode-text`}>OpenRouter AI Assistant</h3>
@@ -77,13 +70,13 @@ export const ChatbotProject = () => {
           Model: {modelName}
         </p>
         <div className="space-y-4">
-          <ChatMessages messages={messages} isDarkMode={isDarkMode} />
+          <ChatMessages messages={messages} isDarkMode={false} />
           <ChatInput 
             message={message}
             setMessage={setMessage}
             handleSendMessage={handleSendMessage}
             isLoading={isLoading}
-            isDarkMode={isDarkMode}
+            isDarkMode={false}
           />
         </div>
       </Card>

@@ -1,10 +1,9 @@
-
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Phone, Mail, Github, Linkedin, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { PDFViewerSection } from "./PDFViewerSection";
+import { generateResumePDF } from "@/utils/PDFGenerator";
 
 export const ResumeSection = ({ isAdminMode = false }) => {
   const credentialsRef = useRef<HTMLDivElement>(null);
@@ -94,6 +93,11 @@ export const ResumeSection = ({ isAdminMode = false }) => {
   const scrollToRight = () => {
     if (!credentialsRef.current) return;
     credentialsRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+  };
+
+  const handleDownloadCV = () => {
+    const doc = generateResumePDF();
+    doc.save("TranAnhDuc_CV.pdf");
   };
 
   return (
@@ -334,7 +338,7 @@ export const ResumeSection = ({ isAdminMode = false }) => {
           <div className="flex justify-center mt-8">
             <Button 
               className="flex items-center gap-2"
-              onClick={() => window.open("/resume.pdf", "_blank")}
+              onClick={handleDownloadCV}
             >
               <Download className="h-4 w-4" />
               Download Full CV

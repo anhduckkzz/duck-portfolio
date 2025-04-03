@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { Code, Brain, Globe, FileText, Github, Linkedin, Instagram, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AIEngineerAnimation } from "./AIEngineerAnimation";
+import { SoftwareEngineerAnimation } from "./SoftwareEngineerAnimation";
 
 export const Hero = () => {
   const handleResumeClick = () => {
@@ -24,9 +24,9 @@ export const Hero = () => {
             Portfolio
           </h2>
           
-          {/* AI Engineer Animation */}
+          {/* Software Engineer Animation */}
           <div className="mb-6">
-            <AIEngineerAnimation />
+            <SoftwareEngineerAnimation />
           </div>
           
           <p className="text-xl md:text-2xl text-secondary/80 mb-8">
