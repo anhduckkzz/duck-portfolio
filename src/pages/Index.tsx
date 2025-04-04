@@ -1,7 +1,6 @@
 
 import { Hero } from "@/components/Hero";
 import { Projects } from "@/components/Projects";
-import { ThreeAnimation } from "@/components/ThreeAnimation";
 import { ChatbotProject } from "@/components/ChatbotProject";
 import { ResumeSection } from "@/components/cv/ResumeSection";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -12,7 +11,6 @@ const Index = () => {
       <div className="fixed top-4 right-4 z-50">
         <ThemeToggle />
       </div>
-      <ThreeAnimation />
       <Hero />
       <ResumeSection />
       <Projects />

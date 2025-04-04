@@ -2,7 +2,6 @@
 import { motion } from "framer-motion";
 import { Code, Brain, Globe, FileText, Github, Linkedin, Instagram, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SoftwareEngineerAnimation } from "./SoftwareEngineerAnimation";
 
 export const Hero = () => {
   const handleResumeClick = () => {
@@ -23,11 +22,6 @@ export const Hero = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">
             Portfolio
           </h2>
-          
-          {/* Software Engineer Animation */}
-          <div className="mb-6">
-            <SoftwareEngineerAnimation />
-          </div>
           
           <p className="text-xl md:text-2xl text-secondary/80 mb-8">
             Specializing in AI, Data Science, and Computer Vision

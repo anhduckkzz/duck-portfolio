@@ -138,11 +138,11 @@ export const Projects = () => {
                     </div>
                   </div>
                   
-                  <div className="flex gap-4">
+                  <div className="flex flex-wrap gap-4 sm:flex-nowrap">
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex items-center gap-1.5"
+                      className="flex items-center gap-1.5 w-full sm:w-auto"
                       onClick={() => window.open(project.githubUrl, "_blank", "noopener,noreferrer")}
                     >
                       <Github className="h-4 w-4" />
@@ -151,7 +151,7 @@ export const Projects = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex items-center gap-1.5"
+                      className="flex items-center gap-1.5 w-full sm:w-auto"
                       onClick={() => window.open(project.demoUrl, "_blank", "noopener,noreferrer")}
                     >
                       <PlayCircle className="h-4 w-4" />
