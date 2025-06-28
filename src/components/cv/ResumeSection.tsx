@@ -235,7 +235,7 @@ export const ResumeSection = ({ isAdminMode = false }) => {
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Experience</h4>
             <div className="ml-2 space-y-6">
               <div>
-                <h5 className="text-lg font-semibold">IT/AI Engineer Intern - VNPT</h5>
+                <h5 className="text-lg font-semibold">AI Engineer - VNPT-IT</h5>
                 <p className="text-gray-700">(June 2025 - August 2025)</p>
                 <ul className="list-disc ml-6 text-gray-700">
                   <li>Design, develop and implement various Computer Vision internal projects related to geospatial and traffic analysis.</li>
