@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Phone, Mail, Github, Linkedin, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
@@ -188,7 +187,7 @@ export const ResumeSection = ({ isAdminMode = false }) => {
                 <p><span className="font-semibold">Libraries and Frameworks:</span> C++ xtensor, Python Data Visualization (pandas, numpy, matplotlib, scikit-learn, YOLO)</p>
               </div>
               <div>
-                <p><span className="font-semibold">Tools:</span> CVAT, Roboflow, basic Docker</p>
+                <p><span className="font-semibold">Tools:</span> CVAT, Roboflow, Docker, Linux</p>
               </div>
               <div>
                 <p><span className="font-semibold">Research Skills:</span> Hands-on Experimental Research, Academic Paper Writing, Literature Review</p>
@@ -234,6 +233,21 @@ export const ResumeSection = ({ isAdminMode = false }) => {
           {/* Experience Section */}
           <div className="mb-6">
             <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Experience</h4>
+            <div className="ml-2 space-y-6">
+              <div>
+                <h5 className="text-lg font-semibold">IT/AI Engineer Intern - VNPT</h5>
+                <p className="text-gray-700">(June 2025 - August 2025)</p>
+                <ul className="list-disc ml-6 text-gray-700">
+                  <li>Design, develop and implement various Computer Vision internal projects related to geospatial and traffic analysis.</li>
+                  <li>Learn new tech stack such as Docker and Linux, new knowledge like optimization, model finetuning, hyperparameter tuning.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          {/* Research Section */}
+          <div className="mb-6">
+            <h4 className="text-xl font-bold uppercase border-b-2 border-gray-300 pb-1 mb-4">Research</h4>
             <div className="ml-2 space-y-6">
               <div>
                 <h5 className="text-lg font-semibold">Research Assistant - Vietnam National University Ho Chi Minh University of Technology</h5>
