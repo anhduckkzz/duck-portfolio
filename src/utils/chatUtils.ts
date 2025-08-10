@@ -2,7 +2,7 @@
 import { Message, SystemMessage } from '@/types/chat';
 
 export const INITIAL_MODEL_NAME = "google/gemini-flash-1.5-8b-exp";
-export const DEFAULT_API_KEY = "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";
+export const DEFAULT_API_KEY = "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";
 
 // Function to add preamble to help model understand formatting
 export const addSystemContext = (messages: Message[]) => {
