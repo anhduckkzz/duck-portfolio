@@ -83,7 +83,10 @@ export function useChatState() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`
+          "Authorization": `Bearer ${apiKey}`,
+          // Recommended by OpenRouter for browser-based requests
+          "HTTP-Referer": window.location.origin,
+          "X-Title": "Personal Chatbot"
         },
         body: JSON.stringify({
           model: modelName,
@@ -91,6 +94,31 @@ export function useChatState() {
           stream: true
         })
       });
+
+      if (!response.ok) {
+        try {
+          const err = await response.json();
+          const detail = err?.error?.message || JSON.stringify(err);
+          toast({
+            title: "OpenRouter error",
+            description: detail === "User not found." 
+              ? "Authentication failed: invalid or inactive OpenRouter API key. Update it in Settings."
+              : detail,
+            variant: "destructive"
+          });
+          setMessages(prev => [...prev, { 
+            role: "bot", 
+            content: detail === "User not found." 
+              ? "Authentication failed: invalid OpenRouter API key. Please update it in Settings."
+              : `Request failed: ${detail}`
+          }]);
+        } catch {
+          const text = await response.text();
+          toast({ title: "OpenRouter error", description: text, variant: "destructive" });
+          setMessages(prev => [...prev, { role: "bot", content: `Request failed: ${text}` }]);
+        }
+        return;
+      }
 
       if (!response.body) {
         throw new Error("No response body");
